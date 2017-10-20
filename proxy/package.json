@@ -21,6 +21,7 @@
     "body-parser": "^1.17.2",
     "config": "^1.26.1",
     "express": "^4.15.4",
-    "mysql-promise": "^4.1.0"
+    "mysql-promise": "^4.1.0",
+    "node-vkapi": "^3.0.3"
   }
 }

@@ -1,8 +1,9 @@
 const express = require('express'),
-      router = express.Router(),
-      https = require('https'),
-      handlers = require('./handlers'),
-      config = require('config');
+    router = express.Router(),
+    https = require('https'),
+    handlers = require('./handlers'),
+    config = require('config'),
+    vkApi = require('./vk');
 
 router.put('/rating', (req, res) => {
     try {
@@ -74,6 +75,16 @@ router.get('/rating', (req, res) => {
             console.log(`[FAIL] Get rating from db: error = ${err}`);
             res.status(500).send({error: ""});
         });
+    } catch (err) {
+        console.log(`[FATAL ERROR] Get rating from db: error = ${err}`);
+        res.status(500).send({error: ""});
+    }
+});
+
+router.get('/card', (req, res) => {
+    try {
+        vkApi.makeUserCard(req.query.id);
+        res.send(323)
     } catch (err) {
         console.log(`[FATAL ERROR] Get rating from db: error = ${err}`);
         res.status(500).send({error: ""});

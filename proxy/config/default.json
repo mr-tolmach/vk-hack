@@ -1,23 +1,32 @@
 {
-    "table_users" : {
-        "name" : "users",
-        "fields" : {
-            "userId": "userId",
-            "eventId": "eventId"
-        }
-    },
-    "table_matches" : {
-        "name" : "matches",
-        "fields" : {
-            "currentUserId": "currentUserId",
-            "targetUserId": "targetUserId",
-            "eventId": "eventId",
-            "state": "state"
-        },
-        "match_states" : {
-            "skip" : "skip",
-            "like" : "like",
-            "sent" : "sent"
-        }
+  "table_users" : {
+    "name" : "users",
+    "fields" : {
+      "userId": "userId",
+      "eventId": "eventId"
     }
+  },
+  "table_matches" : {
+    "name" : "matches",
+    "fields" : {
+      "currentUserId": "currentUserId",
+      "targetUserId": "targetUserId",
+      "eventId": "eventId",
+      "state": "state"
+    },
+    "match_states" : {
+      "skip" : "skip",
+      "like" : "like",
+      "sent" : "sent"
+    }
+  },
+  "group_token": "1670c7e6cdbdf6cee0c4ed63ca2d97bc2ce06dc98351baa02fd638ffcbb90bd431adee8b4fb45f082ac19",
+  "supported_courses": [
+    1838,
+    1906,
+    3067,
+    3150,
+    3149,
+    3124
+  ]
 }
