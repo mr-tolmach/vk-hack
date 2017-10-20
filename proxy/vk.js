@@ -14,7 +14,7 @@ module.exports =
         makeUserCard: function (id) {
             //vk.call('messages.send', {'user_id':35200048, 'message':'Дарова пидор'}
 
-            vk.call('users.get', {'user_ids': [id], 'fields' : ['photo_50','city','about', 'bdate', 'activities']})
+            vk.call('users.get', {'user_ids': id, 'fields' : 'photo_50,city,about,bdate,activities'})
                 .then(response => {
                     let user = response[0];
                     console.log(user);
