@@ -3,23 +3,23 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-CREATE DATABASE IF NOT EXISTS `adaptive_rating` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `adaptive_rating`;
+CREATE DATABASE IF NOT EXISTS `vk_hack_afisha` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `vk_hack_afisha`;
 
-CREATE TABLE IF NOT EXISTS `cache` (
-  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `course` int(11) NOT NULL,
-  `user` int(11) NOT NULL,
-  `exp` int(11) NOT NULL,
-  `delta` int(11) NOT NULL
+CREATE TABLE IF NOT EXISTS `users` (
+    `userId` int(15) NOT NULL,
+    `eventId` int (15) NOT NULL,
+    PRIMARY KEY (`userId`, `eventId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `rating` (
-  `course` int(11) NOT NULL,
-  `user` int(11) NOT NULL,
-  `exp` int(11) NOT NULL,
-  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `updated_at` datetime NOT NULL
+CREATE TABLE IF NOT EXISTS `matches` (
+    `currentUserId` int(11) NOT NULL,
+    `targetUserId` int(11) NOT NULL,
+    `eventId` int (15) NOT NULL,
+    `state` ENUM('skip', 'like', 'sent') NOT NULL,
+    PRIMARY KEY (`currentUserId`, `targetUserId`, `eventId`),
+    FOREIGN KEY (`currentUserId`, `eventId`) REFERENCES `users`(`userId`, `eventId`),
+    FOREIGN KEY (`targetUserId`, `eventId`) REFERENCES `users`(`userId`, `eventId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 GRANT ALL PRIVILEGES ON *.* TO 'dev'@'%';

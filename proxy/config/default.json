@@ -1,23 +1,23 @@
 {
-    "table_submissions" : {
-        "name" : "rating",
+    "table_users" : {
+        "name" : "users",
         "fields" : {
-            "courseId": "course",
-            "profileId": "user",
-            "exp": "exp",
-            "timestamp": "updated_at"
+            "userId": "userId",
+            "eventId": "eventId"
         }
     },
-    "table_cache" : {
-        "name" : "cache",
+    "table_matches" : {
+        "name" : "matches",
         "fields" : {
-            "id": "id",
-            "courseId": "course",
-            "profileId": "user",
-            "exp": "exp",
-            "delta": "delta"
+            "currentUserId": "currentUserId",
+            "targetUserId": "targetUserId",
+            "eventId": "eventId",
+            "state": "state"
+        },
+        "match_states" : {
+            "skip" : "skip",
+            "like" : "like",
+            "sent" : "sent"
         }
-    },
-    "supported_courses": [1838, 1906, 3067, 3150, 3149, 3124],
-    "supported_days": [0, 7, 30, 1]
+    }
 }

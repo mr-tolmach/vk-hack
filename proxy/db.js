@@ -1,7 +1,6 @@
 const
     db      = require('mysql-promise')(),
-    config  = require('config'),
-    SqlString = require('sqlstring');
+    config  = require('config');
 
 db.configure({
     host: process.env.MYSQL_HOST,
@@ -10,124 +9,67 @@ db.configure({
     database: process.env.MYSQL_DATABASE
 });
 
-const submissions = config.get('table_submissions');
-const cache = config.get('table_cache');
+const users = config.get('table_users');
+const matches = config.get('table_matches');
 
-const getFirstArg = (r) => { return r[0]; }
+const getFirstArg = (r) => { return r[0]; };
+
+function changeUser(currentUserId, targetUserId, eventId, matchState) {
+    return db.query(`
+            REPLACE INTO ${matches.name} VALUES (?, ?, ?, ?)
+        `, [currentUserId, targetUserId, eventId, matchState]);
+}
 
 module.exports = {
-    updateRating: function (courseId, profileId, exp) {
-        return db.query(`
-                INSERT INTO ${submissions.name}
-                (${submissions.fields.courseId}, ${submissions.fields.profileId}, ${submissions.fields.exp}, ${submissions.fields.timestamp})
-                SELECT ?, ?, (
-                    SELECT MAX(${submissions.fields.exp}) as ${submissions.fields.exp} FROM (
-                        SELECT 0 as ${submissions.fields.exp}
-                        UNION ALL
-                        SELECT ? - IFNULL(SUM(${submissions.fields.exp}), 0) as ${submissions.fields.exp} FROM ${submissions.name} WHERE ${submissions.fields.courseId} = ? AND ${submissions.fields.profileId} = ?
-                    ) a
-                ), NOW()`, [courseId, profileId, exp, courseId, profileId]);
-    },
-
     /**
-    * @param courseId {number} - id of a course
-    * @param count {number} - max number of users you want to get
-    * @param {number} [delta] - if set period in days for which you want get top
-    * @return - array of top users like [{profile_id, exp, submissions.fields.timestamp }]
-    */
-    getTopForCourse: function (courseId, count, delta) {
-        delta = delta ? `AND ${submissions.fields.timestamp} >= DATE_SUB (NOW(), INTERVAL ${SqlString.escape(delta)} DAY)` : '';
-
+     * Add user to event
+     * @param userId
+     * @param eventId
+     * @return {Promise}
+     */
+    addUserToEvent: function (userId, eventId) {
         return db.query(`
-            SELECT ${submissions.fields.profileId}, sum(${submissions.fields.exp}) as ${submissions.fields.exp}
-            FROM ${submissions.name}
-            WHERE ${submissions.fields.courseId} = ? ${delta}
-            GROUP BY ${submissions.fields.profileId}
-            ORDER BY ${submissions.fields.exp} DESC
-            LIMIT ?`, [courseId, count]).then(getFirstArg);
+            INSERT INTO ${users.name} VALUES (?, ?)
+        `, [userId, eventId]);
     },
 
-    /**
-    * @param courseId {number} - id of a course
-    * @param start {number} - starting users rank, if 0 you get top users
-    * @param count {number} - max number of users you want to get
-    * @param {number} [delta] - if set period in days for which you want get top
-    * @return - array of top users like [{profile_id, exp, submissions.fields.timestamp }]
-    */
-    getTopForCourseFromCache: function (courseId, start, count, delta) {
-        delta = delta || 0;
-
+    likeUser: function (currentUserId, targetUserId, eventId) {
+        return changeUser(currentUserId, targetUserId, eventId, matches.match_states["like"]);
+    },
+    
+    skipUser: function (currentUserId, targetUserId, eventId) {
+        return changeUser(currentUserId, targetUserId, eventId, matches.match_states["skip"]);
+    },
+    
+    onMessageSent: function (currentUserId, targetUserId, eventId) {
+        return changeUser(currentUserId, targetUserId, eventId, matches.match_states["sent"]);
+    },
+    
+    getSuggestionsForUser: function (eventId, userId) {
         return db.query(`
-            SELECT ${cache.fields.profileId}, ${cache.fields.exp}
-            FROM ${cache.name}
-            WHERE ${cache.fields.courseId} = ? AND ${cache.fields.delta} = ?
-            ORDER BY ${cache.fields.exp} DESC, ${cache.fields.id} DESC
-            LIMIT ?, ?`, [courseId, delta, start, count]).then(getFirstArg);
+            SELECT ${users.fields.userId} FROM ${users.name} 
+            WHERE
+                ${users.fields.eventId} = ? AND
+                ${users.fields.userId} NOT IN (
+                    SELECT ${matches.fields.targetUserId} AS ${users.fields.userId} FROM ${matches.name}
+                    WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.eventId} = ?
+                ) AND
+                ${users.fields.userId} <> ?
+        `, [eventId, userId, eventId, userId]).then(getFirstArg);
     },
 
-    /**
-    * Builds rating table for given course in given period of time in days. WARNING: maybe very slow (60+ seconds on 40k items).
-    * @param courseId {number} - id of a course
-    * @param {number} [delta] - if set period in days for which you want get top
-    */
-    buildRatingTable: function (courseId, delta) {
-        delta = delta || 0;
-        deltaSelect = delta != 0 ? `AND ${submissions.fields.timestamp} >= DATE_SUB (NOW(), INTERVAL ${SqlString.escape(delta)} DAY)` : '';
-
+    fetchMatches: function () {
         return db.query(`
-            START TRANSACTION;
-
-            DELETE FROM ${cache.name}
-            WHERE ${cache.fields.courseId} = ? AND ${cache.fields.delta} = ?;
-
-            INSERT INTO ${cache.name} (${cache.fields.id}, ${cache.fields.courseId}, ${submissions.fields.profileId}, ${submissions.fields.exp}, ${cache.fields.delta})
-            SELECT null, ?, ${submissions.fields.profileId}, sum(${submissions.fields.exp}) as ${submissions.fields.exp}, ?
-            FROM ${submissions.name}
-            WHERE ${submissions.fields.courseId} = ? ${deltaSelect}
-            GROUP BY ${submissions.fields.profileId}
-            ORDER BY ${submissions.fields.exp} DESC;
-
-            COMMIT;
-            `, [courseId, delta, courseId, delta, courseId]);
-    },
-
-    /**
-    * @param courseId {number} - id of a course
-    * @param profileId {number} - user id
-    * @param {number} [delta] - if set period in days for which you want get top
-    *
-    * @return Promise to object {exp, rank} where exp - user's exp and rank is his position in top
-    */
-    getUserExpAndRank: function (courseId, profileId, delta) {
-        delta = delta || 0;
-
-        return db.query(`
-            SELECT ${cache.fields.id}, ${cache.fields.exp}
-            FROM ${cache.name}
-            WHERE ${cache.fields.courseId} = ? AND ${cache.fields.profileId} = ? AND ${cache.fields.delta} = ?
-            `, [courseId, profileId, delta]).then(getFirstArg).spread((r) => {
-                if (!r) return undefined;
-                var exp = r.exp;
-                let id = r.id;
-                return db.query(`
-
-                    SELECT SUM(rank) as rank FROM(
-                        SELECT COUNT(*) as rank FROM ${cache.name} WHERE ${cache.fields.exp} > ? AND ${cache.fields.courseId} = ? AND ${cache.fields.delta} = ?
-                        UNION ALL
-                        SELECT COUNT(*) as rank FROM ${cache.name} WHERE ${cache.fields.exp} = ? AND ${cache.fields.courseId} = ? AND ${cache.fields.delta} = ? AND ${cache.fields.id} > ?
-                    ) t`, [exp, courseId, delta, exp, courseId, delta, id]).then(getFirstArg).spread(rrr => {
-                        rrr.exp = exp;
-                        return rrr;
-                    });
-            });
-    },
-
-    countUsersInTop: function (courseId, delta) {
-        delta = delta || 0;
-
-        return db.query(`
-            SELECT COUNT(*) AS count
-            FROM ${cache.name}
-            WHERE ${cache.fields.courseId} = ? AND ${cache.fields.delta} = ?`, [courseId, delta]).then(getFirstArg).then(getFirstArg);
-    },
+            SELECT m1.${matches.fields.currentUserId}, m1.${matches.fields.targetUserId}, m1.${matches.fields.eventId} 
+            FROM
+                ${matches.name} m1
+                JOIN ${matches.name} m2 ON 
+                    m1.${matches.fields.currentUserId} = m2.${matches.fields.targetUserId} AND 
+                    m1.${matches.fields.eventId} = m2.${matches.fields.eventId} AND 
+                    m2.${matches.fields.currentUserId} = m1.${matches.fields.targetUserId}
+            WHERE 
+                m1.${matches.fields.state} = '${matches.match_states["like"]}' AND 
+                (m2.${matches.fields.state} = '${matches.match_states["like"]}' OR m2.state = '${matches.match_states["sent"]}')
+        `).then(getFirstArg);
+    }
 };
