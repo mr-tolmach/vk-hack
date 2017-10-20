@@ -1,0 +1,26 @@
+{
+  "name": "vkhack-afisha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node worker.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t0lmach/vk-hack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/t0lmach/vk-hack/issues"
+  },
+  "homepage": "https://github.com/t0lmach/vk-hack#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "config": "^1.26.1",
+    "express": "^4.15.4",
+    "mysql-promise": "^4.1.0"
+  }
+}

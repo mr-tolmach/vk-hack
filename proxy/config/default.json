@@ -1,0 +1,23 @@
+{
+    "table_submissions" : {
+        "name" : "rating",
+        "fields" : {
+            "courseId": "course",
+            "profileId": "user",
+            "exp": "exp",
+            "timestamp": "updated_at"
+        }
+    },
+    "table_cache" : {
+        "name" : "cache",
+        "fields" : {
+            "id": "id",
+            "courseId": "course",
+            "profileId": "user",
+            "exp": "exp",
+            "delta": "delta"
+        }
+    },
+    "supported_courses": [1838, 1906, 3067, 3150, 3149, 3124],
+    "supported_days": [0, 7, 30, 1]
+}
