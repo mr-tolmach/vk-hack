@@ -71,7 +71,7 @@ export default {
         console.log('before', response.data.result)
         console.log('after', this.filterSugested(response.data.result))
         console.log('mapped', this.filterSugested(response.data.result).map(e => {
-          if (e.occupation === null) {
+          if (e.occupation == null) {
             e.occupation = { name: '' }
           }
           return e
