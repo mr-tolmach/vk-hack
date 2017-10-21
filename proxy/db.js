@@ -6,7 +6,8 @@ db.configure({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
+    database: process.env.MYSQL_DATABASE,
+    charset: 'latin1'
 });
 
 const schedules = config.get('table_schedules');
@@ -36,6 +37,13 @@ module.exports = {
              sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
             WHERE ${schedules.fields.city} = ?
         `,[city]).then(getFirstArg);
+    },
+
+    getEventByDBId: function (eventId) {
+      return   db.query(`
+            SELECT * FROM ${events.name}
+            WHERE ${events.fields.eventId} = ?
+        `,[eventId]).then(getFirstArg);
     },
 
 
