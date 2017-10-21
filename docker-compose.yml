@@ -18,7 +18,7 @@ services:
 
   mysql:
     image: mysql
-    container_name: vkhack-afisha
+    container_name: vkhack-afisha-mysql
     restart: always
     command: --init-file /var/lib/mysql-files/db_schema.sql
     env_file:
