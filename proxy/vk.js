@@ -60,7 +60,7 @@ module.exports =
         console.log("Дата "+data[0][0])
         return vk.call('messages.send', {
           'user_id': id2,
-          'message': 'Вы нашли пару на событие ' + makeEventInfo(data[0][0]) + '\nПользователь ' + data[1].message,
+          'message': 'Вы нашли пару на событие \"' + makeEventInfo(data[0][0]) + '\"\nПользователь ' + data[1].message,
           'attachment': data[1].attachment
         })
       })/*,
