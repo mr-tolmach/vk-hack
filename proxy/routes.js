@@ -65,12 +65,12 @@ router.get('/users', (req, res) => {
         }).then(recommendationsInfo => {
             rcmndts = recommendationsInfo
             mInfo = apiResult
-            return Promise.all(rcmndts.map(i => db.countLikes(i, req.query.eventId)))
+            return Promise.all(rcmndts.map(i => db.countLikes(i.id, req.query.eventId)))
         }).then(likes => {
             for (var i = 0; i < Math.min(rcmndts.count, likes.count); i++) {
                 rcmndts[i]["likes_num"] = likes[i]
             }
-            return Promise.all(rcmndts.map(i => db.isLikeExists(i, userId, req.query.eventId)))
+            return Promise.all(rcmndts.map(i => db.isLikeExists(i.id, userId, req.query.eventId)))
         }).then(hasLikes => {
             for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
                 rcmndts[i]["like"] = hasLikes[i]
