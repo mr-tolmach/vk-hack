@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     [SET_INFO] (state, newInfo) {
       if (state.info === null) {
         state.info = newInfo
+        state.info.api_result = JSON.parse(state.info.api_result)
       }
     },
     [SET_EVENT] (state, newEvent) {
