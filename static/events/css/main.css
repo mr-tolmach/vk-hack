@@ -14,7 +14,8 @@ body {
 .event {
     background: no-repeat center;
     background-size: cover;
-    padding-bottom: 45%;
+    padding-bottom: 35%;
+    border-radius: 10px;
 
     color: #FFF;
     position: relative;
@@ -34,6 +35,12 @@ body {
     left: 0;
     bottom: 0;
     position: absolute;
+
+    border-radius: 10px;
+}
+
+.event .overlay:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .event .info {
