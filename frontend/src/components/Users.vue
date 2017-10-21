@@ -74,6 +74,7 @@ export default {
           if (e.occupation === null) {
             e.occupation = { name: '' }
           }
+          return e
         }))
         this.evs = this.filterSugested(response.data.result)
         this.loadingStatus = GlobalStatus.Success
