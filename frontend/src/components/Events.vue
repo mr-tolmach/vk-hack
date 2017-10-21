@@ -48,7 +48,7 @@ export default {
       HTTP.get('/events/')
       .then(response => {
         console.log(response.data.result)
-        this.evs = response.data.result.slice(0, 10)
+        this.evs = response.data.result.filter(e => e.mainPhoto && e.mainPhoto !== '').slice(0, 10)
         this.loadingStatus = GlobalStatus.Success
       })
       .catch(response => {
