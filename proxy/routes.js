@@ -59,4 +59,14 @@ router.post('/addLike', (req, res) => {
         res.status(500).send({error: ""});
     }
 });
+
+router.post('/addSkip', (req, res) => {
+  try {
+    db.skipUser(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
+    res.send({'result' : 'ok'})
+  } catch (err) {
+    console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
+    res.status(500).send({error: ""});
+  }
+});
 module.exports = router;
