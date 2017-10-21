@@ -59,6 +59,8 @@ export default {
         let isMale = e.sex === 0 || (e.sex === 2 && this.filters.male)
         let isFemale = e.sex === 0 || (e.sex === 1 && this.filters.female)
         let needPhoto = !this.filters.needPhoto || (e.photo === '' && this.filters.needPhoto)
+        console.log('info', this.info)
+        console.log('city_title', this.info.city.title)
         let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.city.title && this.filters.onlymyCity)
         console.log(isMale)
         console.log(isFemale)
