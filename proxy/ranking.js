@@ -3,6 +3,7 @@ const w = {
     bdate: (x) => -0.5 * x,
     like: (x) => 10 * x,
     likes_num: (x) => 4. * Math.pow((1. - Math.pow(Math.abs(x * 0.3 - 1), 3)), 3),
+    similar: (x) => 4 * x,
     occupation: (x) => 3 * x,
     common_count: (x) => 0.05 * x,
     home_town: (x) => 3 * x
@@ -36,6 +37,7 @@ module.exports = {
         res["common_count"] = target["common_count"];
         res["likes_num"] = target["likes_num"];
         res["like"] = target["like"];
+        res["similar"] = target["similar"] ? 1 : 0;
 
         try {
             let a = parseInt(current["bdate"].split('.')[2]);
