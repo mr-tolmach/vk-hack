@@ -64,6 +64,10 @@ export default {
 </script>
 
 <style scoped>
+body {
+  font-size: 14px;
+}
+
 .content {
     background-color: #FFFFFF;
     box-shadow: 0 0 1px rgba(0,0,0,0.3);
