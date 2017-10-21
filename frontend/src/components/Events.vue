@@ -1,10 +1,6 @@
 <template>
-  <div class="events">
-    <div v-show="isSuccess">
-      <ul>
-      <event v-for="ev in evs" :id='ev' :name='ev' :description="ev" :rate='ev' :link="ev" :key="ev"></event>
-      </ul>
-    </div>
+  <div class="events" v-show="isSuccess">
+    <event v-for="ev in evs" :id='ev' :name='ev' :description="ev" :rate='ev' :link="ev" :key="ev"></event>
   </div>
 </template>
 

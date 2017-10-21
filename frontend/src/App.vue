@@ -12,12 +12,11 @@ export default {
 
 <style>
 * {
-	padding: 0;
-	margin: 0;
+    padding: 0px;
+    margin: 0px;
 }
 
 body {
-    background-color: #F0F0F0;
     font-family: Helvetica, sans-serif;
     font-weight: 300;
     font-size: 18px;
@@ -32,10 +31,10 @@ html {
 
 @font-face {
     font-family: HelveticaLight;
-    src: url(../assets/fonts/HelveticaNeue-Thin.otf);
+    src: url(./assets/fonts/HelveticaNeue-Thin.otf);
 }
 
-.main {
+#app {
     height: 100%;
     overflow-y: scroll;
 }
@@ -44,7 +43,9 @@ html {
     background: no-repeat center;
     background-size: cover;
     padding-bottom: 35%;
-    border-radius: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    overflow: hidden;
 
     color: #FFF;
     position: relative;
@@ -64,8 +65,6 @@ html {
     left: 0;
     bottom: 0;
     position: absolute;
-
-    border-radius: 10px;
 }
 
 .event .overlay:hover {
@@ -110,14 +109,14 @@ html {
 }
 
 .event .top .star {
-    background: no-repeat center url(../assets/star.png);
+    background: no-repeat center url(./assets/images/star.png);
     width: 20px;
     height: 20px;
     background-size: contain;
 }
 
 .event .top .afisha {
-    background: no-repeat center url(../assets/afisha.png);
+    background: no-repeat center url(./assets/images/afisha.png);
     width: 20px;
     height: 20px;
     background-size: contain;
