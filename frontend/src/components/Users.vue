@@ -56,8 +56,8 @@ export default {
   methods: {
     filterSugested (people) {
       people.filter(e => {
-        let isMale = e.sex === 0 || (e.sex === 2 && this.filters.male)
-        let isFemale = e.sex === 0 || (e.sex === 1 && this.filters.female)
+        let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
+        let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
         let needPhoto = !this.filters.needPhoto || (e.photo === '' && this.filters.needPhoto)
         console.log('info', this.info.api_result)
         console.log('city_title', this.info.api_result.city.title)
