@@ -8,7 +8,7 @@ const app = express(),
       config = require('config');
 
 app.use(bodyParser.json());
-app.use('/', require('./routes'));
+app.use('/api', require('./routes'));
 
 
 server.listen(PORT, () => {
