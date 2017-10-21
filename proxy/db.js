@@ -70,6 +70,7 @@ module.exports = {
 
     onMessageSent: function (currentUserId, targetUserId, eventId) {
         console.log('On message sent')
+
         return changeUser(currentUserId, targetUserId, eventId, matches.match_states["sent"]);
     },
 
