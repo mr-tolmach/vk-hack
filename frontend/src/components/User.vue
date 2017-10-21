@@ -35,23 +35,23 @@ export default {
   methods: {
     accept () {
       console.log('target', this.id)
-      HTTP.post('/addLike', { params: {
+      HTTP.post('/addLike', {
         currentUserId: this.info.viewer_id,
         currenUserAccessToken: this.info.access_token,
         targetUserId: this.id,
         eventId: this.event
-      } })
+      })
       .then(response => { console.log(response) })
       .catch(response => { console.log(response) })
       this.isChecked = true
     },
     skip () {
-      HTTP.post('/addSkip', { params: {
+      HTTP.post('/addSkip', {
         currentUserId: this.info.viewer_id,
         currenUserAccessToken: this.info.access_token,
         targetUserId: this.id,
         eventId: this.event
-      } })
+      })
       .catch(response => { console.log(response) })
       this.isChecked = true
     },
