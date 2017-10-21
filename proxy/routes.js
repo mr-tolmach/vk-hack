@@ -70,6 +70,11 @@ router.get('/users', (req, res) => {
             for (var i = 0; i < Math.min(rcmndts.count, likes.count); i++) {
                 rcmndts[i]["likes_num"] = likes[i]
             }
+            return Promise.all(rcmndts.map(i => db.getSimilarEvents(i.uid, userId)))
+        }).then(similars => {
+            for (var i = 0; i < Math.min(rcmndts.count, similars.count); i++) {
+                rcmndts[i]["similar"] = similars[i]
+            }
             return Promise.all(rcmndts.map(i => db.isLikeExists(i.uid, userId, req.query.eventId)))
         }).then(hasLikes => {
             for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
@@ -89,9 +94,13 @@ router.get('/users', (req, res) => {
 
 router.post('/addLike', (req, res) => {
     try {
-        db.likeUser(req.body.currentUserId, req.body.targetUserId, req.body.eventId)
-        res.send({'result' : 'ok'})
-        resolveMatch(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
+        db.likeUser(req.body.currentUserId, req.body.targetUserId, req.body.eventId).then(_ => {
+            console.log(arguments)
+            res.send({'result' : 'ok'})
+            resolveMatch(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
+        }).catch(err => {
+            console.log(arguments)
+        })
     } catch (err) {
         console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
         res.status(500).send({error: ""});
