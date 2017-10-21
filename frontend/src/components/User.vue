@@ -35,6 +35,7 @@ export default {
   methods: {
     accept () {
       console.log('target', this.id)
+      console.log('info', this.info)
       HTTP.post('/addLike', {
         currentUserId: this.info.viewer_id,
         currenUserAccessToken: this.info.access_token,
