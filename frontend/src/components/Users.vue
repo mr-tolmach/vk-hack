@@ -1,12 +1,12 @@
 <template>
-  <div class="content">
+<!--   <div class="content">
       <div class="header">
           <div class="back">
               Фильтры
           </div>
           <div class="title">Люди</div>
       </div>
-  </div>
+  </div> -->
   <div class="users" v-show="isSuccess">
     <user v-for="ev in evs" 
       :id='ev' 
