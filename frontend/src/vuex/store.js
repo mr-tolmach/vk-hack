@@ -8,12 +8,15 @@ const store = new Vuex.Store({
   state: {
     info: null,
     event: null,
+    raw_api_result: null,
     filters: null
   },
   mutations: {
     [SET_INFO] (state, newInfo) {
       if (state.info === null) {
         state.info = newInfo
+        state.raw_api_result = newInfo.api_result
+        state.info.api_result = JSON.parse(state.info.api_result).response[0]
       }
     },
     [SET_EVENT] (state, newEvent) {

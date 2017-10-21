@@ -51,15 +51,17 @@ export default {
     isFailed () {
       return this.loadingStatus === GlobalStatus.Failed
     },
-    ...mapState(['event', 'filters', 'info'])
+    ...mapState(['event', 'filters', 'info', 'raw_api_result'])
   },
   methods: {
     filterSugested (people) {
-      people.filter(e => {
-        let isMale = e.sex === 0 || (e.sex === 2 && this.filters.male)
-        let isFemale = e.sex === 0 || (e.sex === 1 && this.filters.female)
+      return people.filter(e => {
+        let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
+        let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
         let needPhoto = !this.filters.needPhoto || (e.photo === '' && this.filters.needPhoto)
-        let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.city.title && this.filters.onlymyCity)
+        console.log('info', this.info.api_result)
+        console.log('city_title', this.info.api_result.city.title)
+        let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.api_result.city.title && this.filters.onlymyCity)
         console.log(isMale)
         console.log(isFemale)
         console.log(needPhoto)
@@ -68,9 +70,9 @@ export default {
       })
     },
     loadEvents () {
-      console.log(this.info.api_result)
+      console.log(this.raw_api_result)
       console.log(this.event)
-      HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.info.api_result} })
+      HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.raw_api_result} })
       .then(response => {
         console.log(response.data.result)
         this.evs = this.filterSugested(response.data.result)
