@@ -81,7 +81,10 @@ module.exports =
                     'message': card.message,
                     'attachment': card.attachment
                 }))*/])
-                .then(res => console.log(res)).catch(err => console.error(err))
+                .then(res => {
+                    console.log(res)
+                    db.onMessageSent(id1,id2,eventId)
+                }).catch(err => console.error(err))
         }
     };
 
