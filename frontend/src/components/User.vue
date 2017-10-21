@@ -40,6 +40,7 @@ export default {
         targetUserId: this.id,
         eventId: this.event
       } })
+      .then(response => { console.log(response) })
       .catch(response => { console.log(response) })
       this.isChecked = true
     },
