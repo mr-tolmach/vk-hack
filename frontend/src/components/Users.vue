@@ -66,6 +66,7 @@ export default {
 <style>
 body {
   font-size: 14px !important;
+  font-weigth: 400 !important;
 }
 
 .content {
