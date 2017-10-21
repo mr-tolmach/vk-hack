@@ -40,6 +40,7 @@ html {
     height: 100%;
     overflow-y: scroll;
     margin: 0 10px;
+    margin-bottom: 10px;
 }
 
 .event {
