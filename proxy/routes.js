@@ -57,7 +57,7 @@ router.get('/users', (req, res) => {
         let userId = 0
         let mInfo = undefined
         console.log(req.query.apiResult)
-        let apiResult = JSON.parse(req.query.apiResult)["result"][0]
+        let apiResult = JSON.parse(req.query.apiResult)["response"][0]
         userId = apiResult
         db.getSuggestionsForUser(uid, req.query.eventId).then(suggestions => {
             sgstns = suggestions
