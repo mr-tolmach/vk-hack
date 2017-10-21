@@ -26,8 +26,6 @@ function changeUser(currentUserId, targetUserId, eventId, matchState) {
 }
 
 module.exports = {
-
-
     getEventsForCity: function (city) {
         console.log(schedules.fields);
         return db.query(`
@@ -44,6 +42,21 @@ module.exports = {
             SELECT * FROM ${events.name}
             WHERE ${events.fields.eventId} = ?
         `,[eventId]).then(getFirstArg);
+    },
+
+    countLikes: function (userId, eventId) {
+        return db.query(`
+            SELECT COUNT(*) FROM ${matches.name}
+            WHERE ${matches.fields.currentUserId} = ? 
+            AND ${matches.fields.eventId} = ?
+        `, [userId, eventId]).then(getFirstArg);
+    },
+
+    isLikeExists: function (currentUserId, targetUserId, eventId) {
+        return db.query(`
+            SELECT COUNT(*) FROM ${matches.name}
+            WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.targetUserId} = AND ${matches.fields.eventId} = ?
+        `, [currentUserId, targetUserId, eventId]).then(getFirstArg);
     },
 
 
