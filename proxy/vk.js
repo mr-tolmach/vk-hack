@@ -41,7 +41,7 @@ module.exports = {
                 'user_ids': uids
             }).then(infos => {
                 let info = []
-                let result = infos["result"]
+                let result = infos["response"]
                 result.forEach(i => {
                     let ii = {
                         city: i["city"]["id"],
