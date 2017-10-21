@@ -53,7 +53,7 @@ html {
 
 @font-face {
     font-family: HelveticaLight;
-    src: url(fonts/HelveticaNeue-Thin.otf);
+    src: url(../assets/fonts/HelveticaNeue-Thin.otf);
 }
 
 .main {
