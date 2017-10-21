@@ -109,14 +109,14 @@ html {
 }
 
 .event .top .star {
-    background: no-repeat center url(./assets/images/star.png);
+    background: no-repeat center url(./assets/star.png);
     width: 20px;
     height: 20px;
     background-size: contain;
 }
 
 .event .top .afisha {
-    background: no-repeat center url(./assets/images/afisha.png);
+    background: no-repeat center url(./assets/afisha.png);
     width: 20px;
     height: 20px;
     background-size: contain;
