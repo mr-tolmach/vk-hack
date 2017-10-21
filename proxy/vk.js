@@ -38,7 +38,7 @@ module.exports = {
     getRecommendationsInfo: (uids) => {
         return new Promise((fulfill, reject) => {
             vk.call('users.get', {
-                'user_ids': uids.join(','), 'fields': 'city,bdate,occupation,home_town,education,photo_max'
+                'user_ids': uids.join(','), 'fields': 'city,sex,bdate,occupation,home_town,education,photo_max'
             }).then(infos => {
                 let info = []
                 let result = infos
@@ -53,6 +53,7 @@ module.exports = {
                         education: i["occupation"]["name"],
                         photo: i["photo_max"],
                         first_name: i["first_name"],
+                        sex: i["sex"]
                         uid: i["id"]
                     }
                     info.push(ii)
