@@ -9,6 +9,7 @@ import store from './vuex/store'
 Vue.config.productionTip = false
 Vue.use(Vuex)
 Vue.component('event', require('./components/Event.vue'))
+Vue.component('user', require('./components/User.vue'))
 
 /* eslint-disable no-new */
 new Vue({
