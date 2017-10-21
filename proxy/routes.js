@@ -60,6 +60,9 @@ router.get('/users', (req, res) => {
         let apiResult = JSON.parse(req.query.apiResult)["response"][0]
         userId = apiResult.id
         db.getSuggestionsForUser(userId, req.query.eventId).then(suggestions => {
+            if suggestions.isEmpty {
+                return []
+            }
             sgstns = suggestions
             return vkApi.getRecommendationsInfo(suggestions)
         }).then(recommendationsInfo => {

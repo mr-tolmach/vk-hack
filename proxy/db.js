@@ -23,7 +23,7 @@ function changeUser(currentUserId, targetUserId, eventId, matchState) {
     console.log('UserId '+targetUserId)
     return db.query(`
             REPLACE INTO ${matches.name} VALUES (?, ?, ?, ?)
-        `, [currentUserId, targetUserId, eventId, matchState]);
+        `, [parseInt(currentUserId), targetUserId, eventId, matchState]);
 }
 
 module.exports = {
