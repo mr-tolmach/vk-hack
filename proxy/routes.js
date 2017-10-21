@@ -31,7 +31,7 @@ router.get('/events', (req, res) => {
     try {
         getEvents('spb')
             .then(result => res.send({'result' : result}))
-            .catch(err => res.send({'error' : err}))
+            .catch(err => res.status(500).send({'error' : err}))
     } catch (err) {
         console.log(`[FATAL ERROR] Get events from db: error = ${err}`);
         res.status(500).send({error: ""});
@@ -42,7 +42,7 @@ router.post('/event', (req, res) => {
     try {
         db.addUserToEvent(req.query.userId, req.query.eventId)
             .then(result => res.send({"result" : 'ok'}))
-            .catch(err => res.send({'error' : err}))
+            .catch(err => res.status(500).send({'error' : err}))
     } catch (err) {
         console.log(`[FATAL ERROR] Add event to db: error = ${err}`);
         res.status(500).send({error: ""});
