@@ -38,14 +38,14 @@ module.exports =
     {
         resolveUserId: (accessToken) => {
             return new Promise((fulfill, reject) => {
-                return vk.call('users.get', ['access_token': accessToken]).then(info => {
+                return vk.call('users.get', {'access_token': accessToken}).then(info => {
                     fulfill(info["result"][0]["uid"])
                 }).catch(err => reject(err))
             })
         },
         getRecommendationsInfo: (uids) => {
             return new Promise((fulfill, reject) => {
-                return vk.call('users.get', ['user_ids': uids]).then(infos => {
+                return vk.call('users.get', {'user_ids': uids}).then(infos => {
                     let info = []
                     let result = infos["result"]
                     result.forEach(i => {
