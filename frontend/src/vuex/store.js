@@ -12,12 +12,12 @@ const store = new Vuex.Store({
   },
   mutations: {
     [SET_INFO] (state, newInfo) {
-      state.info = newInfo
+      if (state.info === null) {
+        state.info = newInfo
+      }
     },
     [SET_EVENT] (state, newEvent) {
-      if (state.info === null) {
-        state.event = newEvent
-      }
+      state.event = newEvent
     },
     [SET_FILTERS] (state, newFilters) {
       state.filters = newFilters
