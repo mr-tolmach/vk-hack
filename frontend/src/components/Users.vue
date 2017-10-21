@@ -69,11 +69,7 @@ export default {
       HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.raw_api_result} })
       .then(response => {
         console.log(this.filterSugested(response.data.result))
-        this.evs = this.filterSugested(response.data.result).map(e => {
-          if (e.occupation === null) {
-            e.occupation = { name: '' }
-          }
-        })
+        this.evs = this.filterSugested(response.data.result)
         this.loadingStatus = GlobalStatus.Success
       })
       .catch(response => {
