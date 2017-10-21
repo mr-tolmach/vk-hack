@@ -61,6 +61,25 @@ body {
     line-height: 1.1em;
 }
 
+.event .info .schedule {
+    margin-top: 12px;
+}
+
+.event .info .schedule .item {
+    display: inline-block;
+    margin-right: 12px;
+    padding: 5px 10px;
+    border-radius: 2px;
+    color: #FFF;
+    border: 1px #fff solid;
+    font-size: 0.9em;
+}
+
+.event .info .schedule .item:hover {
+    background-color: #fff;
+    color: #000;
+}
+
 .event .top {
     position: absolute;
     top: 0;
