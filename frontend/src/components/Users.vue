@@ -57,7 +57,7 @@ export default {
     loadEvents () {
       console.log(this.info.access_token)
       console.log(this.event)
-      HTTP.get('/users/', { params: {accessToken: this.info.access_token, eventId: this.event} })
+      HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.info.api_result} })
       .then(response => {
         console.log(response)
         this.loadingStatus = GlobalStatus.Success
