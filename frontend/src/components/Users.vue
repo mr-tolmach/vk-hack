@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       loadingStatus: GlobalStatus.Trying,
-      evs: ['a', 'b', 'c']
+      evs: []
     }
   },
   mounted () {
@@ -59,7 +59,8 @@ export default {
       console.log(this.event)
       HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.info.api_result} })
       .then(response => {
-        console.log(response)
+        console.log(response.data.response)
+        this.evs = response.data.result
         this.loadingStatus = GlobalStatus.Success
       })
       .catch(response => {
