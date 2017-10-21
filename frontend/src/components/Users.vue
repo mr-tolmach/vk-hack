@@ -2,10 +2,12 @@
   <div id="pzdc">
     <div class="content">
         <div class="header">
+          <router-link to="/filters">
             <div class="back">
                 Фильтры
             </div>
-            <div class="title">Люди</div>
+          </router-link>
+          <div class="title">Люди</div>
         </div>
     </div>
     <div class="users" v-show="isSuccess">

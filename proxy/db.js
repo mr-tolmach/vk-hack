@@ -1,6 +1,6 @@
 const
-    db      = require('mysql-promise')(),
-    config  = require('config');
+    db = require('mysql-promise')(),
+    config = require('config');
 
 db.configure({
     host: process.env.MYSQL_HOST,
@@ -9,10 +9,14 @@ db.configure({
     database: process.env.MYSQL_DATABASE
 });
 
+const schedules = config.get('table_schedules');
+const events = config.get('table_events');
 const users = config.get('table_users');
 const matches = config.get('table_matches');
 
-const getFirstArg = (r) => { return r[0]; };
+const getFirstArg = (r) => {
+    return r[0];
+};
 
 function changeUser(currentUserId, targetUserId, eventId, matchState) {
     return db.query(`
@@ -21,6 +25,27 @@ function changeUser(currentUserId, targetUserId, eventId, matchState) {
 }
 
 module.exports = {
+
+
+    getEventsForCity: function (city) {
+        console.log(schedules.fields);
+        return db.query(`
+            SELECT * FROM
+             ${schedules.name} sch
+             JOIN ${events.name} ev ON
+             sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
+            WHERE ${schedules.fields.city} = ?
+        `,[city]).then(getFirstArg);
+    },
+
+    getEventByDBId: function (eventId) {
+      return   db.query(`
+            SELECT * FROM ${events.name}
+            WHERE ${events.fields.eventId} = ?
+        `,[eventId]).then(getFirstArg);
+    },
+
+
     /**
      * Add user to event
      * @param userId
@@ -36,15 +61,15 @@ module.exports = {
     likeUser: function (currentUserId, targetUserId, eventId) {
         return changeUser(currentUserId, targetUserId, eventId, matches.match_states["like"]);
     },
-    
+
     skipUser: function (currentUserId, targetUserId, eventId) {
         return changeUser(currentUserId, targetUserId, eventId, matches.match_states["skip"]);
     },
-    
+
     onMessageSent: function (currentUserId, targetUserId, eventId) {
         return changeUser(currentUserId, targetUserId, eventId, matches.match_states["sent"]);
     },
-    
+
     getSuggestionsForUser: function (eventId, userId) {
         return db.query(`
             SELECT ${users.fields.userId} FROM ${users.name} 

@@ -21,6 +21,7 @@ export default {
   },
   mounted () {
     this.$store.commit(SET_INFO, this.$route.query)
+    console.log(this.$route.query)
     this.loadEvents()
   },
   computed: {
