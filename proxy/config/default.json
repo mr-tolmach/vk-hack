@@ -1,4 +1,32 @@
 {
+  "table_events" : {
+    "name" : "creations",
+    "fields" : {
+      "eventId" : "creationId",
+      "name" : "eventName",
+      "originalName" : "originalName",
+      "url" : "url",
+      "description" : "description",
+      "editorialComment" : "editorialComment",
+      "widgetDescription" : "widgetDescription",
+      "synopsis" : "synopsis",
+      "rating" : "rating",
+      "mainPhoto" : "mainPhoto"
+    }
+  },
+
+  "table_schedules" : {
+    "name" : "schedules",
+    "fields" : {
+      "city" : "city",
+      "eventId" : "creationId",
+      "placeId" : "placeId",
+      "begin" : "beginDate",
+      "end" : "endDate",
+      "date" : "eventDate"
+    }
+  },
+
   "table_users" : {
     "name" : "users",
     "fields" : {
