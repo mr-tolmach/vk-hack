@@ -18,6 +18,8 @@ export default {
 }
 
 body {
+    background-color: #F0F0F0;
+	margin: 10px 0;
     font-family: Helvetica, sans-serif;
     font-weight: 300;
     font-size: 18px;
