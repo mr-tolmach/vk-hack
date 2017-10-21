@@ -8,7 +8,7 @@
       <div class="description">
           {{description}}
       </div>
-      <div class="similar">
+      <div class="similar" v-show="similar != null">
           {{similar}}
       </div>
       <div class="actions">
@@ -32,29 +32,33 @@ export default {
       isChecked: false
     }
   },
+  computed: {
+    ...mapState(['info', 'event'])
+  },
   methods: {
     accept () {
-      HTTP.post('/addLike', { params: {
+      console.log('target', this.id)
+      console.log('info', this.info)
+      HTTP.post('/addLike', {
         currentUserId: this.info.viewer_id,
         currenUserAccessToken: this.info.access_token,
         targetUserId: this.id,
         eventId: this.event
-      } })
+      })
       .then(response => { console.log(response) })
       .catch(response => { console.log(response) })
       this.isChecked = true
     },
     skip () {
-      HTTP.post('/addSkip', { params: {
+      HTTP.post('/addSkip', {
         currentUserId: this.info.viewer_id,
         currenUserAccessToken: this.info.access_token,
         targetUserId: this.id,
         eventId: this.event
-      } })
+      })
       .catch(response => { console.log(response) })
       this.isChecked = true
-    },
-    ...mapState(['info', 'event'])
+    }
   }
 }
 </script>
