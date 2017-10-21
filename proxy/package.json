@@ -22,6 +22,7 @@
     "config": "^1.27.0",
     "express": "^4.16.2",
     "mysql-promise": "^4.1.0",
-    "node-vkapi": "^3.0.4"
+    "node-vkapi": "^3.0.4",
+    "random-item": "^1.0.0"
   }
 }
