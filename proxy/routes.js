@@ -24,7 +24,9 @@ router.get('/notification.send', (req, res) => {
 
 router.get('/events', (req, res) => {
     try {
-        getEvents('spb').then(res => res.send({'result' : res}))
+        getEvents('spb')
+            .then(result => res.send({'result' : result}))
+            .catch(err => console.error(err))
     } catch (err) {
         console.log(`[FATAL ERROR] Get rating from db: error = ${err}`);
         res.status(500).send({error: ""});

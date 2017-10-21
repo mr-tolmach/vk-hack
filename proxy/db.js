@@ -35,7 +35,7 @@ module.exports = {
              JOIN ${events.name} ev ON
              sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
             WHERE ${schedules.fields.city} = ?
-        `,[city]);
+        `,[city]).then(getFirstArg);
     },
 
 
