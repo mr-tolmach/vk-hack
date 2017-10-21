@@ -35,16 +35,6 @@ const makeEventInfo = function(event) {
     return res.toString('Unicode')
 }
 module.exports = {
-    resolveUserId: (accessToken) => {
-        return new Promise((fulfill, reject) => {
-            let vkk = new VK({
-                accessToken: accessToken
-            })
-            vkk.call('users.get', {}).then(info => {
-                fulfill(info["result"][0]["uid"])
-            }).catch(err => reject(err))
-        })
-    },
     getRecommendationsInfo: (uids) => {
         return new Promise((fulfill, reject) => {
             vk.call('users.get', {
