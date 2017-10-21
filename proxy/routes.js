@@ -78,7 +78,11 @@ router.get('/users', (req, res) => {
                 rcmndts[i]["like"] = hasLikes[i]
             }
             let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => { return a.rank < b.rank })
-        }).then()
+            res.status(200).send({"result": vectors})
+        }).catch(err => {
+            console.log(err)
+            res.status(500).send({error: err})
+        })
     } catch (err) {
         console.log(`[FATAL ERROR] Get users from db: error = ${err}`)
     }
