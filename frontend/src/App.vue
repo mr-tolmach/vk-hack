@@ -39,6 +39,7 @@ html {
     height: 100%;
     overflow-y: scroll;
     margin: 10px;
+    box-sizing: border-box;
 }
 
 .event {
