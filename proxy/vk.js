@@ -50,7 +50,7 @@ module.exports = {
                         occupation: i["occupation"],
                         common_count: 0,
                         home_town: i["home_town"],
-                        education: i["education"]["university_name"],
+                        education: i["occupation"]["name"],
                         photo: i["photo_max"],
                         first_name: i["first_name"],
                         uid: i["id"]
