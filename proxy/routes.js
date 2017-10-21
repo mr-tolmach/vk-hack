@@ -70,6 +70,11 @@ router.get('/users', (req, res) => {
             for (var i = 0; i < Math.min(rcmndts.count, likes.count); i++) {
                 rcmndts[i]["likes_num"] = likes[i]
             }
+            return Promise.all(rcmndts.map(i => db.getSimilarEvents(i.uid, userId)))
+        }).then(similars => {
+            for (var i = 0; i < Math.min(rcmndts.count, similars.count); i++) {
+                rcmndts[i]["similar"] = similars[i]
+            }
             return Promise.all(rcmndts.map(i => db.isLikeExists(i.uid, userId, req.query.eventId)))
         }).then(hasLikes => {
             for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
