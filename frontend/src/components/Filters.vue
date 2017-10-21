@@ -28,6 +28,7 @@
           </div>
           <div class="filter">
             <div class="title">Другое</div>
+
             <div class="checkbox">Только с фотографией</div>
             <div class="checkbox on">Только мой город</div>
           </div>
