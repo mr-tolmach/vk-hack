@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <div class="user" v-if='!isChecked'>
     <div class="image" :style="{ 'background-image': 'url(' + imageLink + ')' }"></div>
     <div class="info">
       <div class="name">
@@ -12,8 +12,8 @@
           {{similar}}
       </div>
       <div class="actions">
-          <div class="button">Позвать</div>
-          <div class="button light">Скрыть</div>
+          <div class="button" @click='accept'>Позвать</div>
+          <div class="button light" @click='hide'>Скрыть</div>
       </div>
     </div>
     <div class="clear"></div>
@@ -21,59 +21,33 @@
 </template>
 
 <script>
+import { HTTP } from '../http/common'
+
 export default {
   name: 'User',
   props: ['id', 'name', 'description', 'similar', 'imageLink'],
   data () {
-    return {}
+    return {
+      isChecked: false
+    }
   },
   methods: {
+    accept () {
+      HTTP.post('/accept', { params: { id: this.id } })
+      this.isChecked = true
+    },
+    hide () {
+      HTTP.post('/hide', { params: { id: this.id } })
+      this.isChecked = true
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 body {
-    font-size: 14px;
-}
-
-.content {
-    background-color: #FFFFFF;
-    box-shadow: 0 0 1px rgba(0,0,0,0.3);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 8px;
-}
-
-.content .header {
-    position: relative;
-}
-
-.content .header .back {
-    display: inline-block;
-    padding: 15px 20px 15px 36px;
-    height: 19px;
-    background: url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%229%22%20height%3D%2216%22%20viewBox%3D%220%200%209%2016%22%3E%3Cpath%20fill%3D%22%23828A99%22%20d%3D%22M8%2015.9c-.2%200-.4-.1-.6-.3l-7-7c-.3-.3-.3-.9%200-1.2l7-7c.3-.3.9-.3%201.2%200%20.3.3.3.9%200%201.2l-6.4%206.4%206.4%206.4c.3.3.3.9%200%201.2-.2.2-.4.3-.6.3z%22%20opacity%3D%22.7%22%2F%3E%3C%2Fsvg%3E') 15px 16px no-repeat;
-    color: #818d99;
-    text-decoration: none;
-    line-height: 19px;
-    cursor: pointer;
-
-    position: absolute;
-    left: 0;
-}
-
-.content .header .back:hover {
-    background: url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%229%22%20height%3D%2216%22%20viewBox%3D%220%200%209%2016%22%3E%3Cpath%20fill%3D%22%23828A99%22%20d%3D%22M8%2015.9c-.2%200-.4-.1-.6-.3l-7-7c-.3-.3-.3-.9%200-1.2l7-7c.3-.3.9-.3%201.2%200%20.3.3.3.9%200%201.2l-6.4%206.4%206.4%206.4c.3.3.3.9%200%201.2-.2.2-.4.3-.6.3z%22%20opacity%3D%22.7%22%2F%3E%3C%2Fsvg%3E') 15px 16px no-repeat, linear-gradient(90deg, #f0f2f5 50%, #fff);
-    color: #707d8c;
-}
-
-.content .header .title {
-    text-align: center;
-    font-weight: 700;
-    color: #222;
-    padding: 15px 20px;
+    font-size: 14px !important;
 }
 
 .user {
