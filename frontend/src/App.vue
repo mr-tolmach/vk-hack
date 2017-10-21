@@ -19,7 +19,6 @@ export default {
 
 body {
     background-color: #F0F0F0;
-	margin: 10px 0;
     font-family: Helvetica, sans-serif;
     font-weight: 300;
     font-size: 18px;
@@ -40,6 +39,7 @@ html {
 #app {
     height: 100%;
     overflow-y: scroll;
+    margin: 0 10px;
 }
 
 .event {
