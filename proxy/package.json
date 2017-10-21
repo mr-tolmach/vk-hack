@@ -18,10 +18,10 @@
   },
   "homepage": "https://github.com/t0lmach/vk-hack#readme",
   "dependencies": {
-    "body-parser": "^1.17.2",
-    "config": "^1.26.1",
-    "express": "^4.15.4",
+    "body-parser": "^1.18.2",
+    "config": "^1.27.0",
+    "express": "^4.16.2",
     "mysql-promise": "^4.1.0",
-    "node-vkapi": "^3.0.3"
+    "node-vkapi": "^3.0.4"
   }
 }
