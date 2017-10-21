@@ -53,7 +53,7 @@ module.exports = {
                         education: i["occupation"]["name"],
                         photo: i["photo_max"],
                         first_name: i["first_name"],
-                        sex: i["sex"]
+                        sex: i["sex"],
                         uid: i["id"]
                     }
                     info.push(ii)
