@@ -12,17 +12,17 @@ const vk = new VK({
 
 
 const makeuserInfo = function(user) {
-    console.log("uuser " + user)
-    res = user.first_name + ' ' + user.last_name
+    console.log("uuser " + user);
+    res = 'https://vk.com/id'+user.id+"\n"+user.first_name + ' ' + user.last_name;
     if (user.bdate) {
-        res += '\nBirthday: ' + user.bdate
+        res += '\n ' + user.bdate
     }
     if (user.city) {
-        res += '\nCity: ' + user.city.title
+        res += '\n '+user.city.title
     }
 
-    if (user.activities) {
-        res += '\nДеятельность: ' + user.activities
+    if (user.occupation) {
+        res += '\n ' + user.occupation
     }
     if (user.about) {
         res += '\nО себе: ' + user.about
