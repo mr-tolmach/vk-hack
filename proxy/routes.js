@@ -60,6 +60,9 @@ router.get('/users', (req, res) => {
         let apiResult = JSON.parse(req.query.apiResult)["response"][0]
         userId = apiResult.id
         db.getSuggestionsForUser(userId, req.query.eventId).then(suggestions => {
+            if suggestions.isEmpty {
+                return []
+            }
             sgstns = suggestions
             return vkApi.getRecommendationsInfo(suggestions)
         }).then(recommendationsInfo => {
@@ -94,12 +97,14 @@ router.get('/users', (req, res) => {
 
 router.post('/addLike', (req, res) => {
     try {
+        console.log(r)
         db.likeUser(req.body.currentUserId, req.body.targetUserId, req.body.eventId).then(_ => {
             console.log(arguments)
             res.send({'result' : 'ok'})
             resolveMatch(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
         }).catch(err => {
-            console.log(arguments)
+            console.log(err)
+            res.status(500).send({})
         })
     } catch (err) {
         console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
