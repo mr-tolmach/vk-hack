@@ -2,9 +2,11 @@
   <div class="content">
     <div class="header">
       <router-link to="/">
-        <div class="back">
-          События
-        </div>
+        <router-link to="/">
+          <div class="back">
+            События
+          </div>
+        </router-link>
       </router-link>
       <div class="title">Фильтры</div>
     </div>
@@ -13,22 +15,22 @@
         <div class="filter">
           <div class="title">Пол</div>
 
-          <div class="radio-button">Мужской</div>
-          <div class="radio-button">Женский</div>
-          <div class="radio-button on">Любой</div>
+          <div class="radio-button" :class='{on: male}' @click='changeRadio(0)'>Мужской</div>
+          <div class="radio-button" :class='{on: female}' @click='changeRadio(1)'>Женский</div>
+          <div class="radio-button" :class='{on: any}' @click='changeRadio(2)'>Любой</div>
         </div>
         <div class="filter">
           <div class="title">Возраст</div>
           <div>
-            <input type="number" max="80" min="16" placeholder="От"/>
+            <input type="number" max="80" min="16" placeholder="От" v-model='lowAge'/>
             –
-            <input type="number" max="80" min="16" placeholder="До"/>
+            <input type="number" max="80" min="16" placeholder="До" v-model='highAge'/>
           </div>
         </div>
         <div class="filter">
           <div class="title">Другое</div>
-          <div class="checkbox">Только с фотографией</div>
-          <div class="checkbox on">Только мой город</div>
+          <div class="checkbox" :class='{on: needPhoto}' @click='needPhoto = !needPhoto'>Только с фотографией</div>
+          <div class="checkbox" :class='{on: onlymyCity}' @click='onlymyCity = !onlymyCity'>Только мой город</div>
         </div>
         <div class="clear"></div>
       </div>
@@ -49,12 +51,36 @@ import { SET_FILTERS } from '../common/mutation-types'
 export default {
   name: 'Filters',
   data () {
-    return {}
+    return {
+      male: false,
+      female: false,
+      any: true,
+      needPhoto: false,
+      onlymyCity: true,
+      lowAge: null,
+      highAge: null
+    }
   },
   computed: {
     ...mapState(['event'])
   },
   methods: {
+    changeRadio (id) {
+      switch (id) {
+        case 0:
+          this.male = true
+          this.female = this.any = false
+          break
+        case 1:
+          this.female = true
+          this.any = this.male = false
+          break
+        case 2:
+          this.any = true
+          this.female = this.male = false
+          break
+      }
+    },
     goToUsers () {
       this.$store.commit(SET_FILTERS, {})
       this.$router.push('/users')
