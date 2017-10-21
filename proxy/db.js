@@ -7,7 +7,7 @@ db.configure({
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
-    charset: 'utf8_general_ci'
+    charset: 'latin1'
 });
 
 const schedules = config.get('table_schedules');
@@ -20,6 +20,7 @@ const getFirstArg = (r) => {
 };
 
 function changeUser(currentUserId, targetUserId, eventId, matchState) {
+    console.log('UserId '+targetUserId)
     return db.query(`
             REPLACE INTO ${matches.name} VALUES (?, ?, ?, ?)
         `, [currentUserId, targetUserId, eventId, matchState]);
@@ -33,7 +34,7 @@ module.exports = {
              ${schedules.name} sch
              JOIN ${events.name} ev ON
              sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
-            WHERE ${schedules.fields.city} = ?
+            WHERE ${schedules.fields.city} = ? LIMIT 20
         `,[city]).then(getFirstArg);
     },
 
@@ -81,6 +82,8 @@ module.exports = {
     },
 
     onMessageSent: function (currentUserId, targetUserId, eventId) {
+        console.log('On message sent')
+
         return changeUser(currentUserId, targetUserId, eventId, matches.match_states["sent"]);
     },
 

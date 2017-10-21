@@ -1,18 +1,18 @@
 <template>
-  <div class="event" :style="{ 'background-image': 'url(' + link + ')' }" @click="goToChoose">
+  <div class="event" :style="{ 'background-image': 'url(' + imageLink + ')' }" @click="goToChoose">
       <div class="overlay"></div>
       <div class="top">
-          <a href="https://google.ru"><div class="afisha"></div></a>
-          <div class="star"></div>
-          <div class="rating">{{rate}}</div>
+        <a @click.stop="goToExternal"><div class="afisha"></div></a>
+        <div class="star"></div>
+        <div class="rating">{{rate}}</div>
       </div>
       <div class="info">
-          <div class="title">
-              {{name}}
-          </div>
-          <div class="description">
-              {{description}}
-          </div>
+        <div class="title">
+            {{name}}
+        </div>
+        <div class="description">
+            {{description}}
+        </div>
       </div>
   </div>
 </template>
@@ -22,11 +22,14 @@ import { SET_EVENT } from '../common/mutation-types'
 
 export default {
   name: 'Event',
-  props: ['id', 'name', 'description', 'rate', 'link'],
+  props: ['id', 'name', 'description', 'rate', 'imageLink', 'infoLink'],
   data () {
     return {}
   },
   methods: {
+    goToExternal () {
+      window.location.href = this.infoLink
+    },
     goToChoose () {
       this.$store.commit(SET_EVENT, this.id)
       this.$router.push('filters')
