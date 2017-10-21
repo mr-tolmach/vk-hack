@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     goToExternal () {
-      window.location.href = this.infoLink
+      window.top.location.href = this.infoLink
     },
     goToChoose () {
       this.$store.commit(SET_EVENT, this.id)
