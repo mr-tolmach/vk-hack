@@ -43,11 +43,22 @@ body {
     font-weight: 300;
     font-size: 18px;
     letter-spacing: 1px;
+
+    height: 100%;
+}
+
+html {
+    height: 100%;
 }
 
 @font-face {
     font-family: HelveticaLight;
-    src: url(../assets/fonts/HelveticaNeue-Thin.otf);
+    src: url(fonts/HelveticaNeue-Thin.otf);
+}
+
+.main {
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .event {
