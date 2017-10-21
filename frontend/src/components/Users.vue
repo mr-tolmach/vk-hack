@@ -13,7 +13,7 @@
     <div class="users" v-show="isSuccess">
       <user v-for="ev in evs" 
         :id='ev.uid' 
-        :name='ev.name' 
+        :name='ev.first_name' 
         :description="ev.city_name + ' • ' + ev.occupation.name" 
         :similar='ev.uid' 
         :imageLink='ev.photo' 
