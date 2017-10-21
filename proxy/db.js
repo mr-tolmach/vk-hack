@@ -88,7 +88,7 @@ module.exports = {
      */
     addUserToEvent: function (userId, eventId) {
         return db.query(`
-            INSERT INTO ${users.name} VALUES (?, ?)
+            REPLACE INTO ${users.name} VALUES (?, ?)
         `, [userId, eventId]);
     },
 

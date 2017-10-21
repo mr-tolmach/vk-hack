@@ -44,13 +44,13 @@ module.exports = {
                 let result = infos
                 result.forEach(i => {
                     let ii = {
-                        city: i["city"]["id"],
-                        city_name: i["city"]["title"],
+                        city: i["city"] ? i["city"]["id"] : '',
+                        city_name: i["city"] ? i["city"]["title"] : '',
                         bdate: i["bdate"],
                         occupation: i["occupation"],
                         common_count: 0,
                         home_town: i["home_town"],
-                        education: i["occupation"]["name"],
+                        education: i["occupation"] ? i["occupation"]["name"] : '',
                         photo: i["photo_max"],
                         first_name: i["first_name"],
                         sex: i["sex"],
