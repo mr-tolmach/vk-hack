@@ -59,13 +59,15 @@ router.get('/users', (req, res) => {
         console.log(req.query.apiResult)
         let apiResult = JSON.parse(req.query.apiResult)["response"][0]
         userId = apiResult.id
-        db.getSuggestionsForUser(userId, req.query.eventId).then(suggestions => {
-            if suggestions.isEmpty {
+        db.getSuggestionsForUser(req.query.eventId, userId).then(suggestions => {
+           console.log(suggestions) 
+	   if (suggestions.length == 0) {
                 return []
             }
             sgstns = suggestions
-            return vkApi.getRecommendationsInfo(suggestions)
+            return vkApi.getRecommendationsInfo(suggestions.map(o => o.userId))
         }).then(recommendationsInfo => {
+	    console.log(recommendationsInfo)
             rcmndts = recommendationsInfo
             mInfo = apiResult
             return Promise.all(rcmndts.map(i => db.countLikes(i.uid, req.query.eventId)))
@@ -83,6 +85,7 @@ router.get('/users', (req, res) => {
             for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
                 rcmndts[i]["like"] = hasLikes[i]
             }
+	    console.log(rcmndts)
             let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => { return a.rank < b.rank }).map(x => x.target)
             console.log(vectors)
             res.status(200).send({"result": vectors})
@@ -97,7 +100,6 @@ router.get('/users', (req, res) => {
 
 router.post('/addLike', (req, res) => {
     try {
-        console.log(r)
         db.likeUser(req.body.currentUserId, req.body.targetUserId, req.body.eventId).then(_ => {
             console.log(arguments)
             res.send({'result' : 'ok'})

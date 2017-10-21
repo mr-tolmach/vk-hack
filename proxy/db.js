@@ -107,6 +107,16 @@ module.exports = {
     },
 
     getSuggestionsForUser: function (eventId, userId) {
+	console.log(`
+            SELECT ${users.fields.userId} FROM ${users.name}
+            WHERE
+                ${users.fields.eventId} = ? AND
+                ${users.fields.userId} NOT IN (
+                    SELECT ${matches.fields.targetUserId} AS ${users.fields.userId} FROM ${matches.name}
+                    WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.eventId} = ?
+                ) AND
+                ${users.fields.userId} <> ?
+        `)
         return db.query(`
             SELECT ${users.fields.userId} FROM ${users.name} 
             WHERE
