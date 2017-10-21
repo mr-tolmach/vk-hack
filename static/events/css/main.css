@@ -15,7 +15,8 @@ body {
     background: no-repeat center;
     background-size: cover;
     padding-bottom: 35%;
-    border-radius: 10px;
+    border-radius: 2px;
+    cursor: pointer;
 
     color: #FFF;
     position: relative;
