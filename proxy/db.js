@@ -7,7 +7,7 @@ db.configure({
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
-    charset: 'utf8_general_ci'
+    charset: 'latin1'
 });
 
 const schedules = config.get('table_schedules');
