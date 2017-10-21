@@ -8,7 +8,7 @@
       <div class="description">
           {{description}}
       </div>
-      <div class="similar">
+      <div class="similar" v-show="similar != null">
           {{similar}}
       </div>
       <div class="actions">
@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     accept () {
+      console.log('target', this.id)
       HTTP.post('/addLike', { params: {
         currentUserId: this.info.viewer_id,
         currenUserAccessToken: this.info.access_token,

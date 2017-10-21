@@ -15,7 +15,7 @@
         :id='ev.uid' 
         :firstName='ev.first_name' 
         :description="ev.city_name + ' • ' + ev.occupation.name" 
-        :similar='ev.uid' 
+        :similar='ev.similar' 
         :imageLink='ev.photo' 
         :key="ev.uid">    
       </user>
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     loadEvents () {
-      console.log(this.info.access_token)
+      console.log(this.info.api_result)
       console.log(this.event)
       HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.info.api_result} })
       .then(response => {
