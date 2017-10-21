@@ -61,6 +61,24 @@ module.exports = {
         `, [currentUserId, targetUserId, eventId]).then(getFirstArg);
     },
 
+    getSimilarEvents: function (currentUserId, targetUserId) {
+        return db.query(`
+            SELECT eventName FROM 
+                users u1
+                JOIN creations c ON u1.eventId = c.eventId
+                JOIN users u2    ON c.eventId  = u2.eventId
+                JOIN schedules s ON s.eventId  = c.eventId
+            WHERE 
+                u1.userId = ? 
+                    AND 
+                u2.userId = ?
+                    AND
+                u1.eventId = u2.eventId
+                    AND 
+                s.eventDate < NOW()
+        `, [currentUserId, targetUserId]).then(getFirstArg)
+    },
+
 
     /**
      * Add user to event
