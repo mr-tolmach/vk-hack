@@ -34,12 +34,23 @@ export default {
   },
   methods: {
     accept () {
-      HTTP.post('/addLike', { params: { currentUserId: this.info.viewer_id, targetUserId: this.id, eventId: this.event } })
+      HTTP.post('/addLike', { params: {
+        currentUserId: this.info.viewer_id,
+        currenUserAccessToken: this.info.access_token,
+        targetUserId: this.id,
+        eventId: this.event
+      } })
       .catch(response => { console.log(response) })
       this.isChecked = true
     },
     hide () {
-      HTTP.post('/hide', { params: { id: this.id } })
+      HTTP.post('/hide', { params: {
+        currentUserId: this.info.viewer_id,
+        currenUserAccessToken: this.info.access_token,
+        targetUserId: this.id,
+        eventId: this.event
+      } })
+      .catch(response => { console.log(response) })
       this.isChecked = true
     },
     ...mapState(['info', 'event'])

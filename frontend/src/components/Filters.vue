@@ -63,7 +63,11 @@ export default {
     }
   },
   mounted () {
-    HTTP.post('/user', { eventId: this.event, userId: this.info.viewer_id })
+    console.log('lol', this.info.viewer_id)
+    console.log('lol', this.event)
+    HTTP.post('/event?userId=' + this.info.viewer_id + '&accessToken=' + this.info.access_token + '&eventId=' + this.event)
+    .then(response => { console.log(response) })
+    .catch(response => { console.log(response) })
     if (this.filters) {
       this.male = this.filters.male
       this.female = this.filters.female
