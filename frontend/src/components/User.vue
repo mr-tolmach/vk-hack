@@ -3,7 +3,7 @@
     <div class="image" :style="{ 'background-image': 'url(' + imageLink + ')' }"></div>
     <div class="info">
       <div class="name">
-          {{name}}
+          {{firstName}}
       </div>
       <div class="description">
           {{description}}
@@ -26,7 +26,7 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'User',
-  props: ['id', 'name', 'description', 'similar', 'imageLink'],
+  props: ['id', 'firstName', 'description', 'similar', 'imageLink'],
   data () {
     return {
       isChecked: false
