@@ -13,7 +13,7 @@ module.exports = {
         let rank = 0;
         for (let ft in x) {
             if (x.hasOwnProperty(ft) && w.hasOwnProperty(ft)) {
-                rank += w[ft](x(ft))
+                rank += w[ft](x[ft])
             }
         }
         return rank;
