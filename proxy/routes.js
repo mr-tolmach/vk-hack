@@ -56,17 +56,14 @@ router.get('/users', (req, res) => {
         let rcmndts = undefined
         let userId = 0
         let mInfo = undefined
-        vkApi.resolveUserId(req.query.accessToken).then(uid => {
-            userId = uid
-            return db.getSuggestionsForUser(uid, req.query.eventId);
-        }).then(suggestions => {
+        let apiResult = JSON.parse(req.query.apiResult)["result"][0]
+        userId = apiResult
+        db.getSuggestionsForUser(uid, req.query.eventId).then(suggestions => {
             sgstns = suggestions
             return vkApi.getRecommendationsInfo(suggestions)
         }).then(recommendationsInfo => {
             rcmndts = recommendationsInfo
-            return vkApi.getRecommendationsInfo([userId])
-        }).then(myInfo => {
-            mInfo = myInfo[0]
+            mInfo = apiResult
             return Promise.all(rcmndts.map(i => db.countLikes(i, eventId)))
         }).then(likes => {
             for (var i = 0; i < Math.min(rcmndts.count, likes.count); i++) {
