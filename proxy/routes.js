@@ -10,10 +10,10 @@ const getEvents = function (city) {
 };
 
 const resolveMatch = function (currentUserId, targetUserId, eventId) {
-    let matches = db.fetchMatches();
-    matches.forEach(function (item) {
-        vkApi.sendNotifications(item.currentUserId, item.targetUserId, item.eventId);
-    })
+    db.fetchMatches().then(matches => matches.forEach(function (item) {
+      vkApi.sendNotifications(item.currentUserId, item.targetUserId, item.eventId);
+    }));
+
 };
 
 router.get('/notification.send', (req, res) => {
@@ -41,7 +41,7 @@ router.get('/events', (req, res) => {
 router.post('/event', (req, res) => {
     try {
         db.addUserToEvent(req.query.userId, req.query.eventId)
-            .then(result => res.send({"result" : result}))
+            .then(result => res.send({"result" : 'ok'}))
             .catch(err => res.send({'error' : err}))
     } catch (err) {
         console.log(`[FATAL ERROR] Add event to db: error = ${err}`);
@@ -52,6 +52,8 @@ router.post('/event', (req, res) => {
 router.post('/addLike', (req, res) => {
     try {
         db.likeUser(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
+        res.send({'result' : 'ok'})
+        resolveMatch(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
     } catch (err) {
         console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
         res.status(500).send({error: ""});
