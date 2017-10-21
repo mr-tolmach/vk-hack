@@ -75,7 +75,8 @@ router.get('/users', (req, res) => {
             for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
                 rcmndts[i]["like"] = hasLikes[i]
             }
-            let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => { return a.rank < b.rank })
+            let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => { return a.rank < b.rank }).map(x => x.target)
+            console.log(vectors)
             res.status(200).send({"result": vectors})
         }).catch(err => {
             console.log(err)
