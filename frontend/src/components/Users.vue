@@ -51,7 +51,7 @@ export default {
     isFailed () {
       return this.loadingStatus === GlobalStatus.Failed
     },
-    ...mapState(['event', 'filters', 'info'])
+    ...mapState(['event', 'filters', 'info', 'raw_api_result'])
   },
   methods: {
     filterSugested (people) {
