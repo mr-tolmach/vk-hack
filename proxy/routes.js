@@ -80,6 +80,7 @@ router.get('/users', (req, res) => {
             let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => { return a.rank < b.rank })
             res.status(200).send({"result": vectors})
         }).catch(err => {
+            console.log(err)
             res.status(500).send({error: err})
         })
     } catch (err) {
