@@ -40,7 +40,7 @@ body {
     border-radius: 10px;
 }
 
-.event .overlay:hover {
+.event:hover .overlay {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
