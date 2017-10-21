@@ -47,10 +47,13 @@ const makeuserInfo = function (user) {
 
 module.exports =
     {
+        getUserInfo: function (id, fields) {
+            return vk.call('users.get', {'user_ids': id, 'fields': fields})
+        },
         makeUserMessage: function (id) {
             //vk.call('messages.send', {'user_id':35200048, 'message':'Дарова пидор'}
 
-            return vk.call('users.get', {'user_ids': id, 'fields': 'photo_id,city,about,bdate,activities'})
+            return this.getUserInfo(id, 'photo_id,city,about,bdate,activities')
                 .then(response => {
                     let user = response[0];
                     console.log(user);
@@ -62,17 +65,17 @@ module.exports =
         },
         sendNotifications: function (id1, id2) {
             let card1 = this.makeUserMessage(id1);
-            let card2 = this.makeUserMessage(id2);
+            //let card2 = this.makeUserMessage(id2);
             Promise.all([card1.then(card => vk.call('messages.send', {
                 'user_id': id2,
                 'message': card.message,
                 'attachment': card.attachment
-            })),
+            }))/*,
                 card2.then(card => vk.call('messages.send', {
                     'user_id': id1,
                     'message': card.message,
                     'attachment': card.attachment
-                }))])
+                }))*/])
                 .then(res => console.log(res)).catch(err => console.error(err))
         }
     };
