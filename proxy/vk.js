@@ -38,22 +38,22 @@ module.exports = {
     getRecommendationsInfo: (uids) => {
         return new Promise((fulfill, reject) => {
             vk.call('users.get', {
-                'user_ids': uids
+                'user_ids': uids, 'fields': 'city,bdate,occupation,home_town,education,photo_max'
             }).then(infos => {
                 let info = []
-                let result = infos["result"]
+                let result = infos
                 result.forEach(i => {
                     let ii = {
                         city: i["city"]["id"],
                         city_name: i["city"]["title"],
                         bdate: i["bdate"],
                         occupation: i["occupation"],
-                        common_count: i["common_count"],
+                        common_count: 0,
                         home_town: i["home_town"],
-                        education: i["education"]["university_name"],
+                        education: i["occupation"]["name"],
                         photo: i["photo_max"],
                         first_name: i["first_name"],
-                        uid: i["uid"]
+                        uid: i["id"]
                     }
                     info.push(ii)
                 })
