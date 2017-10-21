@@ -27,6 +27,7 @@
 import User from './User.vue'
 import GlobalStatus from '../common/global-status'
 import { HTTP } from '../http/common'
+import { mapState } from 'vuex'
 
 export default {
   components: { User },
@@ -49,11 +50,14 @@ export default {
     },
     isFailed () {
       return this.loadingStatus === GlobalStatus.Failed
-    }
+    },
+    ...mapState(['event', 'filters', 'info'])
   },
   methods: {
     loadEvents () {
-      HTTP.get('/users/')
+      console.log(this.info.access_token)
+      console.log(this.event)
+      HTTP.get('/users/', { params: {accessToken: this.info.access_token, eventId: this.event} })
       .then(response => {
         console.log(response)
         this.loadingStatus = GlobalStatus.Success
