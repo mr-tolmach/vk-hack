@@ -1,15 +1,13 @@
 <template>
-  <div class="users">
-    <div v-show="isSuccess">
-      <user v-for="ev in evs" 
-        :id='ev' 
-        :name='ev' 
-        :description="ev" 
-        :similar='ev' 
-        :imageLink='ev' 
-        :key="ev">    
-      </user>
-    </div>
+  <div class="users" v-show="isSuccess">
+    <user v-for="ev in evs" 
+      :id='ev' 
+      :name='ev' 
+      :description="ev" 
+      :similar='ev' 
+      :imageLink='ev' 
+      :key="ev">    
+    </user>
   </div>
 </template>
 
