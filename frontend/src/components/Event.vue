@@ -2,7 +2,7 @@
   <div class="event" :style="{ 'background-image': 'url(' + imageLink + ')' }" @click="goToChoose">
       <div class="overlay"></div>
       <div class="top">
-        <a @click.stop="goToExternal"><div class="afisha"></div></a>
+        <a @click.stop="goToExternal" target="_blank"><div class="afisha"></div></a>
         <div class="star"></div>
         <div class="rating">{{rate}}</div>
       </div>

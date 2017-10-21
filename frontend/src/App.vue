@@ -53,7 +53,7 @@ html {
     color: #FFF;
     position: relative;
 
-    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .event:last-child {
