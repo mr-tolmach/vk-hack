@@ -18,6 +18,6 @@ for c in f.findall('schedule'):
   creationid = c.findall('creation-id')[0].text if c.findall('creation-id')[0].text is not None else ''
   place = c.findall('place-id')[0].text if c.findall('place-id')[0].text is not None else ''
   for dt in c.findall('dates')[0].findall('date'):
-    content += "('spb', '{}', '{}', NOW(), NOW(), {}), \n".format(creationid.replace('\n', ''), place.replace('\n', ''), dt.text)
+    content += "('spb', '{}', '{}', NOW(), NOW(), {}), \n".format(creationid.replace('\n', '').replace("'", "\\'"), place.replace('\n', '').replace("'", "\\'"), dt.text)
 content = content[0:len(content) - 3] + ';'
 print(content)

@@ -23,6 +23,6 @@ for c in f.findall('creation'):
 	description = c.findall('widget-description')[0].text if c.findall('widget-description')[0].text is not None else ''
 	rating = c.findall('rating')[0].text if c.findall('rating')[0].text is not None else ''
 	photo = c.findall('main-photo')[0].text if c.findall('main-photo')[0].text is not None else ''
-	content += "('{}', '{}', '', '{}', '', {}, '', '{}', '{}'), \n".format(creationid.replace('\n', ''), name.replace('\n', ''), description.replace('\n', ''), url.replace('\n', ''), rating.replace('\n', ''), photo.replace('\n', ''))
+	content += "('{}', '{}', '', '{}', '', '{}', '', '{}', '{}'), \n".format(creationid.replace('\n', '').replace("'", "\\'"), name.replace('\n', '').replace("'", "\\'"), description.replace('\n', '').replace("'", "\\'"), url.replace('\n', '').replace("'", "\\'"), rating.replace('\n', '').replace("'", "\\'"), photo.replace('\n', '').replace("'", "\\'"))
 content = content[0:len(content) - 3] + ';'
 print(content)
