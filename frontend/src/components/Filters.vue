@@ -63,7 +63,7 @@ export default {
     }
   },
   mounted () {
-    HTTP.post('/user', { eventId: this.event })
+    HTTP.post('/user', { eventId: this.event, userId: this.info.viewer_id })
     if (this.filters) {
       this.male = this.filters.male
       this.female = this.filters.female

@@ -5,4 +5,6 @@ var instance = axios.create({
   timeout: 3000
 })
 
+instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
 export const HTTP = instance

@@ -20,14 +20,13 @@ const getFirstArg = (r) => {
 };
 
 function changeUser(currentUserId, targetUserId, eventId, matchState) {
+    console.log('UserId '+targetUserId)
     return db.query(`
             REPLACE INTO ${matches.name} VALUES (?, ?, ?, ?)
         `, [currentUserId, targetUserId, eventId, matchState]);
 }
 
 module.exports = {
-
-
     getEventsForCity: function (city) {
         console.log(schedules.fields);
         return db.query(`
@@ -35,7 +34,7 @@ module.exports = {
              ${schedules.name} sch
              JOIN ${events.name} ev ON
              sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
-            WHERE ${schedules.fields.city} = ?
+            WHERE ${schedules.fields.city} = ? LIMIT 20
         `,[city]).then(getFirstArg);
     },
 
@@ -44,6 +43,21 @@ module.exports = {
             SELECT * FROM ${events.name}
             WHERE ${events.fields.eventId} = ?
         `,[eventId]).then(getFirstArg);
+    },
+
+    countLikes: function (userId, eventId) {
+        return db.query(`
+            SELECT COUNT(*) FROM ${matches.name}
+            WHERE ${matches.fields.currentUserId} = ? 
+            AND ${matches.fields.eventId} = ?
+        `, [userId, eventId]).then(getFirstArg);
+    },
+
+    isLikeExists: function (currentUserId, targetUserId, eventId) {
+        return db.query(`
+            SELECT COUNT(*) FROM ${matches.name}
+            WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.targetUserId} = AND ${matches.fields.eventId} = ?
+        `, [currentUserId, targetUserId, eventId]).then(getFirstArg);
     },
 
 
@@ -68,6 +82,8 @@ module.exports = {
     },
 
     onMessageSent: function (currentUserId, targetUserId, eventId) {
+        console.log('On message sent')
+
         return changeUser(currentUserId, targetUserId, eventId, matches.match_states["sent"]);
     },
 

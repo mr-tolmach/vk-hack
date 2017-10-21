@@ -22,6 +22,7 @@
 
 <script>
 import { HTTP } from '../http/common'
+import { mapState } from 'vuex'
 
 export default {
   name: 'User',
@@ -33,13 +34,15 @@ export default {
   },
   methods: {
     accept () {
-      HTTP.post('/accept', { params: { id: this.id } })
+      HTTP.post('/addLike', { params: { currentUserId: this.info.viewer_id, targetUserId: this.id, eventId: this.event } })
+      .catch(response => { console.log(response) })
       this.isChecked = true
     },
     hide () {
       HTTP.post('/hide', { params: { id: this.id } })
       this.isChecked = true
-    }
+    },
+    ...mapState(['info', 'event'])
   }
 }
 </script>

@@ -3,17 +3,18 @@ const express = require('express'),
     https = require('https'),
     config = require('config'),
     vkApi = require('./vk'),
-    db = require('./db');
+    db = require('./db'),
+    ranking = require('./ranking');
 
 const getEvents = function (city) {
     return db.getEventsForCity(city)
 };
 
 const resolveMatch = function (currentUserId, targetUserId, eventId) {
-    let matches = db.fetchMatches();
-    matches.forEach(function (item) {
-        vkApi.sendNotifications(item.currentUserId, item.targetUserId, item.eventId);
-    })
+    db.fetchMatches().then(matches => matches.forEach(function (item) {
+      vkApi.sendNotifications(item.currentUserId, item.targetUserId, item.eventId);
+    }));
+
 };
 
 router.get('/notification.send', (req, res) => {
@@ -31,7 +32,7 @@ router.get('/events', (req, res) => {
     try {
         getEvents('spb')
             .then(result => res.send({'result' : result}))
-            .catch(err => res.send({'error' : err}))
+            .catch(err => res.status(500).send({'error' : err}))
     } catch (err) {
         console.log(`[FATAL ERROR] Get events from db: error = ${err}`);
         res.status(500).send({error: ""});
@@ -41,8 +42,8 @@ router.get('/events', (req, res) => {
 router.post('/event', (req, res) => {
     try {
         db.addUserToEvent(req.query.userId, req.query.eventId)
-            .then(result => res.send({"result" : result}))
-            .catch(err => res.send({'error' : err}))
+            .then(result => res.send({"result" : 'ok'}))
+            .catch(err => res.status(500).send({'error' : err}))
     } catch (err) {
         console.log(`[FATAL ERROR] Add event to db: error = ${err}`);
         res.status(500).send({error: ""});
@@ -66,17 +67,18 @@ router.get('/users', (req, res) => {
             return vkApi.getRecommendationsInfo([userId])
         }).then(myInfo => {
             mInfo = myInfo[0]
-            return Promise.all(rcmndts.map(i => db.likes(userId, i)))
+            return Promise.all(rcmndts.map(i => db.countLikes(i, eventId)))
         }).then(likes => {
             for (var i = 0; i < Math.min(rcmndts.count, likes.count); i++) {
                 rcmndts[i]["likes_num"] = likes[i]
             }
-            return Promise.all(rcmndts.map(i => db.like(userId, i)))
+            return Promise.all(rcmndts.map(i => db.isLikeExists(i, userId, eventId)))
         }).then(hasLikes => {
             for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
                 rcmndts[i]["like"] = hasLikes[i]
             }
-        })
+            let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => { return a.rank < b.rank })
+        }).then()
     } catch (err) {
         console.log(`[FATAL ERROR] Get users from db: error = ${err}`)
     }
@@ -85,6 +87,8 @@ router.get('/users', (req, res) => {
 router.post('/addLike', (req, res) => {
     try {
         db.likeUser(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
+        res.send({'result' : 'ok'})
+        resolveMatch(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
     } catch (err) {
         console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
         res.status(500).send({error: ""});
