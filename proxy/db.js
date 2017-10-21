@@ -38,6 +38,13 @@ module.exports = {
         `,[city]).then(getFirstArg);
     },
 
+    getEventByDBId: function (eventId) {
+      return   db.query(`
+            SELECT * FROM ${events.name}
+            WHERE ${events.fields.eventId} = ?
+        `,[eventId]).then(getFirstArg);
+    },
+
 
     /**
      * Add user to event

@@ -1,7 +1,6 @@
 const config = require('config'),
     https = require('https'),
     VK = require('node-vkapi'),
-    idownload = require('image-downloader'),
     fs = require('fs');
 
 
@@ -44,7 +43,11 @@ const makeuserInfo = function (user) {
     }
     return res.toString('Unicode');
 };
-
+const makeEventInfo= function(event){
+    res = "Название: "+event.name;
+    res="Время: "+event.date;
+    return res.toString('Unicode');
+};
 module.exports =
     {
         getUserInfo: function (id, fields) {
@@ -63,12 +66,13 @@ module.exports =
                 }).catch(error => console.error(error));
 
         },
-        sendNotifications: function (id1, id2) {
+        sendNotifications: function (id1, id2, eventId) {
             let card1 = this.makeUserMessage(id1);
+
             //let card2 = this.makeUserMessage(id2);
-            Promise.all([card1.then(card => vk.call('messages.send', {
+            Promise.all([card1.then(card =>).then(card => vk.call('messages.send', {
                 'user_id': id2,
-                'message': card.message,
+                'message': "Вы нашли пару на "card.message,
                 'attachment': card.attachment
             }))/*,
                 card2.then(card => vk.call('messages.send', {
