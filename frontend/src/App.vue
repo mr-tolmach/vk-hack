@@ -14,13 +14,14 @@ export default {
 * {
     padding: 0px;
     margin: 0px;
+    outline: none;
 }
 
 body {
+    background-color: #F0F0F0;
     font-family: Helvetica, sans-serif;
     font-weight: 300;
     font-size: 18px;
-    letter-spacing: 1px;
 
     height: 100%;
 }
@@ -37,6 +38,8 @@ html {
 #app {
     height: 100%;
     overflow-y: scroll;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .event {
@@ -67,7 +70,7 @@ html {
     position: absolute;
 }
 
-.event .overlay:hover {
+.event:hover .overlay {
     background-color: rgba(0, 0, 0, 0.8);
 }
 

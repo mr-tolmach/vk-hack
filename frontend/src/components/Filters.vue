@@ -1,45 +1,42 @@
 <template>
-  <div class="filters">
-    <div class="content">
-      <div class="header">
-        <router-link to="/">
-          <div class="back">
-            События
+  <div class="content">
+    <div class="header">
+      <router-link to="/">
+        <div class="back">
+          События
+        </div>
+      </router-link>
+      <div class="title">Фильтры</div>
+    </div>
+    <div class="form">
+      <div class="filters">
+        <div class="filter">
+          <div class="title">Пол</div>
+
+          <div class="radio-button">Мужской</div>
+          <div class="radio-button">Женский</div>
+          <div class="radio-button on">Любой</div>
+        </div>
+        <div class="filter">
+          <div class="title">Возраст</div>
+          <div>
+            <input type="number" max="80" min="16" placeholder="От"/>
+            –
+            <input type="number" max="80" min="16" placeholder="До"/>
           </div>
-        </router-link>
-        <div class="title">Фильтры</div>
+        </div>
+        <div class="filter">
+          <div class="title">Другое</div>
+          <div class="checkbox">Только с фотографией</div>
+          <div class="checkbox on">Только мой город</div>
+        </div>
+        <div class="clear"></div>
       </div>
-      <div class="form">
-        <div class="filters">
-          <div class="filter">
-            <div class="title">Пол</div>
-
-            <div class="radio-button">Мужской</div>
-            <div class="radio-button">Женский</div>
-            <div class="radio-button on">Любой</div>
-          </div>
-          <div class="filter">
-            <div class="title">Возраст</div>
-            <div>
-              <input type="number" max="80" min="16" placeholder="От"/>
-              –
-              <input type="number" max="80" min="16" placeholder="До"/>
-            </div>
-          </div>
-          <div class="filter">
-            <div class="title">Другое</div>
-
-            <div class="checkbox">Только с фотографией</div>
-            <div class="checkbox on">Только мой город</div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="actions">
-          <router-link to="/users">
-            <div class="button" @click='goToUsers'>Найти</div>
-          </router-link>
-          <div class="button light" @click='tryLuck'>Мне повезёт</div>
-        </div>
+      <div class="actions">
+        <router-link to="/users">
+          <div class="button" @click='goToUsers'>Найти</div>
+        </router-link>
+        <div class="button light" @click='tryLuck'>Мне повезёт</div>
       </div>
     </div>
   </div>
@@ -71,16 +68,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 body {
-    background-color: #F0F0F0;
-    font-family: Helvetica, sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-}
-
-* {
-    outline: none;
+  font-size: 14px !important;
+  font-weight: 400 !important;
 }
 
 .content {

@@ -33,13 +33,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 body {
-    background-color: #F0F0F0;
-    font-family: Helvetica, sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    letter-spacing: 1px;
+    font-size: 14px !important;
 }
 
 .user {
