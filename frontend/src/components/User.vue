@@ -13,7 +13,7 @@
       </div>
       <div class="actions">
           <div class="button" @click='accept'>Позвать</div>
-          <div class="button light" @click='hide'>Скрыть</div>
+          <div class="button light" @click='skip'>Скрыть</div>
       </div>
     </div>
     <div class="clear"></div>
@@ -43,8 +43,8 @@ export default {
       .catch(response => { console.log(response) })
       this.isChecked = true
     },
-    hide () {
-      HTTP.post('/hide', { params: {
+    skip () {
+      HTTP.post('/addSkip', { params: {
         currentUserId: this.info.viewer_id,
         currenUserAccessToken: this.info.access_token,
         targetUserId: this.id,
