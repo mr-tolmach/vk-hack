@@ -47,6 +47,7 @@
 <script>
 import { mapState } from 'vuex'
 import { SET_FILTERS } from '../common/mutation-types'
+import { HTTP } from '../http/common'
 
 export default {
   name: 'Filters',
@@ -61,8 +62,20 @@ export default {
       highAge: null
     }
   },
+  mounted () {
+    HTTP.post('/user', { eventId: this.event })
+    if (this.filters) {
+      this.male = this.filters.male
+      this.female = this.filters.female
+      this.any = this.filters.any
+      this.needPhoto = this.filters.needPhoto
+      this.onlymyCity = this.filters.onlymyCity
+      this.lowAge = this.filters.lowAge
+      this.highAge = this.filters.highAge
+    }
+  },
   computed: {
-    ...mapState(['event'])
+    ...mapState(['event', 'filters', 'info'])
   },
   methods: {
     changeRadio (id) {
@@ -82,7 +95,17 @@ export default {
       }
     },
     goToUsers () {
-      this.$store.commit(SET_FILTERS, {})
+      let filters = {
+        male: this.male,
+        female: this.female,
+        any: this.any,
+        needPhoto: this.needPhoto,
+        onlymyCity: this.onlymyCity,
+        lowAge: this.lowAge,
+        highAge: this.highAge
+      }
+      console.log(filters)
+      this.$store.commit(SET_FILTERS, filters)
       this.$router.push('/users')
     },
     tryLuck () {

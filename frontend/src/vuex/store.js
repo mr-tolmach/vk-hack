@@ -8,7 +8,7 @@ const store = new Vuex.Store({
   state: {
     info: {},
     event: null,
-    filters: {}
+    filters: null
   },
   mutations: {
     [SET_INFO] (state, newInfo) {

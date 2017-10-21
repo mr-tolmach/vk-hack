@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <div class="user" v-if='!isChecked'>
     <div class="image" :style="{ 'background-image': 'url(' + imageLink + ')' }"></div>
     <div class="info">
       <div class="name">
@@ -12,8 +12,8 @@
           {{similar}}
       </div>
       <div class="actions">
-          <div class="button">Позвать</div>
-          <div class="button light">Скрыть</div>
+          <div class="button" @click='accept'>Позвать</div>
+          <div class="button light" @click='hide'>Скрыть</div>
       </div>
     </div>
     <div class="clear"></div>
@@ -21,13 +21,25 @@
 </template>
 
 <script>
+import { HTTP } from '../http/common'
+
 export default {
   name: 'User',
   props: ['id', 'name', 'description', 'similar', 'imageLink'],
   data () {
-    return {}
+    return {
+      isChecked: false
+    }
   },
   methods: {
+    accept () {
+      HTTP.post('/accept', { params: { id: this.id } })
+      this.isChecked = true
+    },
+    hide () {
+      HTTP.post('/hide', { params: { id: this.id } })
+      this.isChecked = true
+    }
   }
 }
 </script>
