@@ -56,7 +56,7 @@ module.exports = {
     isLikeExists: function (currentUserId, targetUserId, eventId) {
         return db.query(`
             SELECT COUNT(*) FROM ${matches.name}
-            WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.targetUserId} = AND ${matches.fields.eventId} = ?
+            WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.targetUserId} = ? AND ${matches.fields.eventId} = ?
         `, [currentUserId, targetUserId, eventId]).then(getFirstArg);
     },
 
