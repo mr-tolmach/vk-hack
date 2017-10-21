@@ -35,7 +35,7 @@ module.exports = {
              JOIN ${events.name} ev ON
              sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
             WHERE ${schedules.fields.city} = ? AND ${events.fields.creationId} REGEXP '^Exhibition(\d)+'
-             AND ${events.fields.mainPhoto} != '' LIMIT 100
+             AND ${events.fields.mainPhoto} <> '' LIMIT 100
         `,[city]).then(getFirstArg);
     },
 
