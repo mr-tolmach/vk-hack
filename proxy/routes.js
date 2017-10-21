@@ -94,12 +94,14 @@ router.get('/users', (req, res) => {
 
 router.post('/addLike', (req, res) => {
     try {
+        console.log(r)
         db.likeUser(req.body.currentUserId, req.body.targetUserId, req.body.eventId).then(_ => {
             console.log(arguments)
             res.send({'result' : 'ok'})
             resolveMatch(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
         }).catch(err => {
-            console.log(arguments)
+            console.log(err)
+            res.status(500).send({})
         })
     } catch (err) {
         console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
