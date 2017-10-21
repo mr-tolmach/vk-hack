@@ -35,7 +35,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 body {
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 .user {

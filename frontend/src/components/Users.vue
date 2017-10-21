@@ -65,7 +65,7 @@ export default {
 
 <style scoped>
 body {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 
 .content {
