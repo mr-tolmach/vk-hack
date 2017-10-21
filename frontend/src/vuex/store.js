@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    info: {},
+    info: null,
     event: null,
     filters: null
   },
@@ -15,7 +15,9 @@ const store = new Vuex.Store({
       state.info = newInfo
     },
     [SET_EVENT] (state, newEvent) {
-      state.event = newEvent
+      if (state.info === null) {
+        state.event = newEvent
+      }
     },
     [SET_FILTERS] (state, newFilters) {
       state.filters = newFilters
