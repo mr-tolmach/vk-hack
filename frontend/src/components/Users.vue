@@ -72,7 +72,7 @@ export default {
     loadEvents () {
       console.log(this.info.api_result)
       console.log(this.event)
-      HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.info.api_result} })
+      HTTP.get('/users/', { params: {eventId: this.event, apiResult: JSON.stringify(this.info.api_result)} })
       .then(response => {
         console.log(response.data.result)
         this.evs = this.filterSugested(response.data.result)
