@@ -2,6 +2,7 @@
   "table_events" : {
     "name" : "creations",
     "fields" : {
+      "creationId" : "creationId",
       "eventId" : "eventId",
       "name" : "eventName",
       "originalName" : "originalName",

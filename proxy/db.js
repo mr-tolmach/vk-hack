@@ -34,7 +34,8 @@ module.exports = {
              ${schedules.name} sch
              JOIN ${events.name} ev ON
              sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
-            WHERE ${schedules.fields.city} = ? LIMIT 100
+            WHERE ${schedules.fields.city} = ? AND ${schedules.fields.creationId} REGEXP '^Exhibition(\d)+'
+             AND ${schedules.fields.mainPhoto} != '' LIMIT 100
         `,[city]).then(getFirstArg);
     },
 
@@ -56,7 +57,7 @@ module.exports = {
     isLikeExists: function (currentUserId, targetUserId, eventId) {
         return db.query(`
             SELECT COUNT(*) FROM ${matches.name}
-            WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.targetUserId} = AND ${matches.fields.eventId} = ?
+            WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.targetUserId} = ? AND ${matches.fields.eventId} = ?
         `, [currentUserId, targetUserId, eventId]).then(getFirstArg);
     },
 
