@@ -32,6 +32,9 @@ export default {
       isChecked: false
     }
   },
+  computed: {
+    ...mapState(['info', 'event'])
+  },
   methods: {
     accept () {
       console.log('target', this.id)
@@ -55,8 +58,7 @@ export default {
       })
       .catch(response => { console.log(response) })
       this.isChecked = true
-    },
-    ...mapState(['info', 'event'])
+    }
   }
 }
 </script>
