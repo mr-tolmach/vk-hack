@@ -1,21 +1,23 @@
 <template>
-<!--   <div class="content">
-      <div class="header">
-          <div class="back">
-              Фильтры
-          </div>
-          <div class="title">Люди</div>
-      </div>
-  </div> -->
-  <div class="users" v-show="isSuccess">
-    <user v-for="ev in evs" 
-      :id='ev' 
-      :name='ev' 
-      :description="ev" 
-      :similar='ev' 
-      :imageLink='ev' 
-      :key="ev">    
-    </user>
+  <div id="pzdc">
+    <div class="content">
+        <div class="header">
+            <div class="back">
+                Фильтры
+            </div>
+            <div class="title">Люди</div>
+        </div>
+    </div>
+    <div class="users" v-show="isSuccess">
+      <user v-for="ev in evs" 
+        :id='ev' 
+        :name='ev' 
+        :description="ev" 
+        :similar='ev' 
+        :imageLink='ev' 
+        :key="ev">    
+      </user>
+    </div>
   </div>
 </template>
 
