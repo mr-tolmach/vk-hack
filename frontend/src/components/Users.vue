@@ -12,12 +12,12 @@
     </div>
     <div class="users" v-show="isSuccess">
       <user v-for="ev in evs" 
-        :id='ev' 
-        :name='ev' 
-        :description="ev" 
+        :id='ev.uid' 
+        :name='ev.name' 
+        :description="ev.city_name + ' • ' + ev.occupation.name" 
         :similar='ev' 
-        :imageLink='ev' 
-        :key="ev">    
+        :imageLink='ev.photo' 
+        :key="ev.uid">    
       </user>
     </div>
   </div>
@@ -59,7 +59,7 @@ export default {
       console.log(this.event)
       HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.info.api_result} })
       .then(response => {
-        console.log(response.data.response)
+        console.log(response.data.result)
         this.evs = response.data.result
         this.loadingStatus = GlobalStatus.Success
       })
