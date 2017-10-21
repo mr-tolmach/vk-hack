@@ -35,13 +35,42 @@ const makeEventInfo = function (event) {
   return res.toString('Unicode')
 }
 module.exports =
-  {
-    getUserInfo: function (id, fields) {
-      return vk.call('users.get', {'user_ids': id, 'fields': fields})
-    },
+    {
+        resolveUserId: (accessToken) => {
+            return new Promise((fulfill, reject) => {
+                return vk.call('users.get', {'access_token': accessToken}).then(info => {
+                    fulfill(info["result"][0]["uid"])
+                }).catch(err => reject(err))
+            })
+        },
+        getRecommendationsInfo: (uids) => {
+            return new Promise((fulfill, reject) => {
+                return vk.call('users.get', {'user_ids': uids}).then(infos => {
+                    let info = []
+                    let result = infos["result"]
+                    result.forEach(i => {
+                        let ii = {
+                            city: i["city"]["id"],
+                            city_name: i["city"]["title"],
+                            bdate: i["bdate"],
+                            occupation: i["occupation"],
+                            common_count: i["common_count"],
+                            home_town: i["home_town"],
+                            education: i["education"]["university_name"],
+                            photo: i["photo_max"],
+                            first_name: i["first_name"],
+                            uid: i["uid"]
+                        }
+                        info.push(ii)
+                    })
+                    fulfill(info)
+                }).catch(err => reject(err))
+            })
+        },
+        getUserInfo: function (id, fields) {
+            return vk.call('users.get', {'user_ids': id, 'fields': fields})
+        },
     makeUserMessage: function (id) {
-      //vk.call('messages.send', {'user_id':35200048, 'message':'Дарова пидор'}
-
       return this.getUserInfo(id, 'photo_id,city,about,bdate,activities')
         .then(response => {
           let user = response[0]
@@ -60,7 +89,7 @@ module.exports =
         console.log("Дата "+data[0][0])
         return vk.call('messages.send', {
           'user_id': id2,
-          'message': 'Вы нашли пару на событие ' + makeEventInfo(data[0][0]) + '\nПользователь ' + data[1].message,
+          'message': 'Вы нашли пару на событие \"' + makeEventInfo(data[0][0]) + '\"\nПользователь ' + data[1].message,
           'attachment': data[1].attachment
         })
       })/*,

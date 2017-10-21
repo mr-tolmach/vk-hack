@@ -1,6 +1,6 @@
 const w = {
     city: (x) => 5 * x,
-    bdate: (x) => 2 * x,
+    bdate: (x) => -0.5 * x,
     like: (x) => 10 * x,
     likes_num: (x) => 4. * Math.pow((1. - Math.pow(Math.abs(x * 0.3 - 1), 3)), 3),
     occupation: (x) => 3 * x,
@@ -35,8 +35,14 @@ module.exports = {
         }
         res["common_count"] = target["common_count"];
         res["likes_num"] = target["likes_num"];
-        res["likes_num"] = target["likes_num"];
         res["like"] = target["like"];
+
+        try {
+            let a = parseInt(current["bdate"].split('.')[2]);
+            let b = parseInt(target["bdate"].split('.')[2]);
+            if (a !== 0 && b !== 0)
+                res["bdate"] = Math.abs(a - b)
+        } catch (e) {}
 
         return res;
     }
