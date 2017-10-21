@@ -51,6 +51,32 @@ const makeEventInfo= function(event){
 };
 module.exports =
     {
+        resolveUserId: (accessToken) => {
+            return new Promise((fulfill, reject) => {
+                return vk.call('users.get', ['access_token': accessToken]).then(info => {
+                    fulfill(info["result"][0]["uid"])
+                }).catch(err => reject(err))
+            })
+        },
+        getRecommendationsInfo: (uids) => {
+            return new Promise((fulfill, reject) => {
+                return vk.call('users.get', ['user_ids': uids]).then(infos => {
+                    let info = []
+                    let result = infos["result"]
+                    result.forEach(i => {
+                        let ii = {
+                            city: i["city"]["id"],
+                            bdate: i["bdate"],
+                            occupation: i["occupation"],
+                            common_count: i["common_count"],
+                            home_town: i["home_town"]
+                        }
+                        info.push(ii)
+                    })
+                    fulfill(info)
+                }).catch(err => reject(err))
+            })
+        },
         getUserInfo: function (id, fields) {
             return vk.call('users.get', {'user_ids': id, 'fields': fields})
         },

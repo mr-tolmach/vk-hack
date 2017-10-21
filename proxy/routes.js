@@ -49,6 +49,39 @@ router.post('/event', (req, res) => {
     }
 });
 
+router.get('/users', (req, res) => {
+    try {
+        let sgstns = undefined
+        let rcmndts = undefined
+        let userId = 0
+        let mInfo = undefined
+        vkApi.resolveUserId(req.query.accessToken).then(uid => {
+            userId = uid
+            return db.getSuggestionsForUser(uid, req.query.eventId);
+        }).then(suggestions => {
+            sgstns = suggestions
+            return vkApi.getRecommendationsInfo(suggestions)
+        }).then(recommendationsInfo => {
+            rcmndts = recommendationsInfo
+            return vkApi.getRecommendationsInfo([userId])
+        }).then(myInfo => {
+            mInfo = myInfo[0]
+            return Promise.all(rcmndts.map(i => db.likes(userId, i)))
+        }).then(likes => {
+            for (var i = 0; i < Math.min(rcmndts.count, likes.count); i++) {
+                rcmndts[i]["likes_num"] = likes[i]
+            }
+            return Promise.all(rcmndts.map(i => db.like(userId, i)))
+        }).then(hasLikes => {
+            for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
+                rcmndts[i]["like"] = hasLikes[i]
+            }
+        })
+    } catch (err) {
+        console.log(`[FATAL ERROR] Get users from db: error = ${err}`)
+    }
+})
+
 router.post('/addLike', (req, res) => {
     try {
         db.likeUser(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
