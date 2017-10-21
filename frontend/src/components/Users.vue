@@ -59,8 +59,6 @@ export default {
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
         let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
         let needPhoto = !this.filters.needPhoto || (e.photo === '' && this.filters.needPhoto)
-        console.log('info', this.info.api_result)
-        console.log('city_title', this.info.api_result.city.title)
         let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.api_result.city.title && this.filters.onlymyCity)
         console.log(isMale)
         console.log(isFemale)
@@ -74,7 +72,7 @@ export default {
       console.log(this.event)
       HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.raw_api_result} })
       .then(response => {
-        console.log(response.data.result)
+        console.log(response.data.result.filter(e => {e.occupation === null}))
         this.evs = this.filterSugested(response.data.result)
         this.loadingStatus = GlobalStatus.Success
       })
