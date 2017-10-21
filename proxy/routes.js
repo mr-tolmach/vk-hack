@@ -86,12 +86,22 @@ router.get('/users', (req, res) => {
 
 router.post('/addLike', (req, res) => {
     try {
-        db.likeUser(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
+        db.likeUser(req.body.currentUserId, req.body.targetUserId, req.body.eventId)
         res.send({'result' : 'ok'})
         resolveMatch(req.query.currentUserId, req.query.targetUserId, req.query.eventId)
     } catch (err) {
         console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
         res.status(500).send({error: ""});
     }
+});
+
+router.post('/addSkip', (req, res) => {
+  try {
+    db.skipUser(req.body.currentUserId, req.body.targetUserId, req.body.eventId)
+    res.send({'result' : 'ok'})
+  } catch (err) {
+    console.log(`[FATAL ERROR] Add match to db: error = ${err}`);
+    res.status(500).send({error: ""});
+  }
 });
 module.exports = router;

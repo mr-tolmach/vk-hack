@@ -34,7 +34,7 @@ module.exports = {
              ${schedules.name} sch
              JOIN ${events.name} ev ON
              sch.${schedules.fields.eventId} = ev.${events.fields.eventId} 
-            WHERE ${schedules.fields.city} = ? LIMIT 20
+            WHERE ${schedules.fields.city} = ? LIMIT 100
         `,[city]).then(getFirstArg);
     },
 
