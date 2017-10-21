@@ -1,6 +1,13 @@
 <template>
   <div class="events" v-show="isSuccess">
-    <event v-for="ev in evs" :id='ev' :name='ev' :description="ev" :rate='ev' :link="ev" :key="ev"></event>
+    <event v-for="ev in evs" 
+      :id='ev.eventId' 
+      :name='ev.eventName' 
+      :description="ev.description" 
+      :rate='ev.rating' 
+      :imageLink="ev.mainPhoto"
+      :infoLink='ev.widgetDescription'
+      :key="ev.eventId"></event>
   </div>
 </template>
 
@@ -20,8 +27,9 @@ export default {
     }
   },
   mounted () {
-    this.$store.commit(SET_INFO, this.$route.query)
-    console.log(this.$route.query)
+    let params = this.$route.query
+    this.$store.commit(SET_INFO, params)
+    console.log(params)
     this.loadEvents()
   },
   computed: {
@@ -39,7 +47,8 @@ export default {
     loadEvents () {
       HTTP.get('/events/')
       .then(response => {
-        console.log(response)
+        console.log(response.data.result)
+        this.evs = response.data.result.slice(0, 10)
         this.loadingStatus = GlobalStatus.Success
       })
       .catch(response => {
