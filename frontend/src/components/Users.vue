@@ -15,7 +15,7 @@
         :id='ev.uid' 
         :name='ev.name' 
         :description="ev.city_name + ' • ' + ev.occupation.name" 
-        :similar='ev' 
+        :similar='ev.uid' 
         :imageLink='ev.photo' 
         :key="ev.uid">    
       </user>
