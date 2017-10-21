@@ -1,7 +1,8 @@
 const config = require('config'),
     https = require('https'),
     VK = require('node-vkapi'),
-    fs = require('fs');
+    fs = require('fs'),
+    db = require('./db');
 
 
 const group_token = config.get('group_token');
@@ -70,10 +71,10 @@ module.exports =
             let card1 = this.makeUserMessage(id1);
 
             //let card2 = this.makeUserMessage(id2);
-            Promise.all([card1.then(card =>).then(card => vk.call('messages.send', {
+            Promise.all([card1.then(card => [db.getEventByDBId(eventId), card]).then(data => vk.call('messages.send', {
                 'user_id': id2,
-                'message': "Вы нашли пару на "card.message,
-                'attachment': card.attachment
+                'message': "Вы нашли пару на "+makeEventInfo(data[0])+data[0].message,
+                'attachment': data[0].attachment
             }))/*,
                 card2.then(card => vk.call('messages.send', {
                     'user_id': id1,
