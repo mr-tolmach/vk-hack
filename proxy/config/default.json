@@ -2,7 +2,7 @@
   "table_events" : {
     "name" : "creations",
     "fields" : {
-      "eventId" : "creationId",
+      "eventId" : "eventId",
       "name" : "eventName",
       "originalName" : "originalName",
       "url" : "url",
@@ -19,7 +19,7 @@
     "name" : "schedules",
     "fields" : {
       "city" : "city",
-      "eventId" : "creationId",
+      "eventId" : "eventId",
       "placeId" : "placeId",
       "begin" : "beginDate",
       "end" : "endDate",
