@@ -120,7 +120,9 @@ body {
 .user .info .similar {
     color: #4D8A08;
     padding: 2px 0 2px 26px;
-
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     background: url(../assets/users/green_star.png) no-repeat left;
     background-size: contain;
 }
