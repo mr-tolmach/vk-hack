@@ -13,20 +13,7 @@ const vk = new VK({
 
 const makeuserInfo = function(user) {
     console.log("uuser " + user);
-    res = 'https://vk.com/id'+user.id+"\n"+user.first_name + ' ' + user.last_name;
-    if (user.bdate) {
-        res += '\n ' + user.bdate
-    }
-    if (user.city) {
-        res += '\n '+user.city.title
-    }
-
-    if (user.occupation) {
-        res += '\n ' + user.occupation
-    }
-    if (user.about) {
-        res += '\nО себе: ' + user.about
-    }
+    res = user.first_name + ' ' + user.last_name + ' (https://vk.com/id' + user.id + ")\n";
     return res.toString('Unicode')
 }
 const makeEventInfo = function(event) {
@@ -90,7 +77,7 @@ module.exports = {
                 console.log("Дата " + data[0][0])
                 return vk.call('messages.send', {
                     'user_id': id2,
-                    'message': 'Вы нашли пару на событие \"' + makeEventInfo(data[0][0]) + '\"\nПользователь ' + data[1].message,
+                    'message': 'Вы нашли пару на событие \"' + makeEventInfo(data[0][0]) + '\":\n' + data[1].message,
                     'attachment': data[1].attachment
                 })
             })
