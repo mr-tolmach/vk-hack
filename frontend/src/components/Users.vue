@@ -68,14 +68,12 @@ export default {
         seq.push(user.occupation.name)
       }
 
-      console.log(user.bdate, seq)
       return seq.join(' • ')
     },
     unwrapDate (str) {
       if (str === undefined) { return null }
       let parts = str.split('.')
       if (parts.length !== 3) {
-        console.log('wrong parts', parts)
         return null
       } else {
         let age = 2017 - new Date(str).getFullYear()
@@ -88,16 +86,17 @@ export default {
         var isAgeOk = false
         let lowAge = this.filters.lowAge
         let highAge = this.filters.highAge
+        let age = this.unwrapDate(e.bdate)
         if (lowAge == null && highAge == null) {
           isAgeOk = true
         } else if (lowAge < highAge) {
-          let age = this.unwrapDate(e.bdate)
           isAgeOk = age == null || (lowAge < age && age < highAge)
         }
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
         let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
         let needPhoto = !this.filters.needPhoto || (e.photo !== '' && this.filters.needPhoto)
         let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.api_result.city.title && this.filters.onlymyCity)
+        console.log('isAgeOk', isAgeOk + ' ' + lowAge + ' ' + age + ' ' + highAge)
         return isAgeOk && e.first_name !== 'DELETED' && isMale && isFemale && needPhoto && onlymyCity
       })
     },
