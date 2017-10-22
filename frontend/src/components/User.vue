@@ -1,23 +1,24 @@
 <template>
-  <div class="user" v-if='!isChecked'>
-    <div class="image" :style="{ 'background-image': 'url(' + imageLink + ')' }"></div>
-    <div class="info">
-      <div class="name">
-          {{firstName}}
-      </div>
-      <div class="description">
-          {{description}}
-      </div>
-      <div class="similar" v-show="similar != null">
-          {{similar}}
-      </div>
-      <div class="actions">
-          <div class="button" @click='accept'>Позвать</div>
-          <div class="button light" @click='skip'>Скрыть</div>
+  <transition name="fade">
+    <div class="user" v-if='isChecked'>
+      <div class="image" :style="{ 'background-image': 'url(' + imageLink + ')' }"></div>
+      <div class="info">
+        <div class="name">
+            {{firstName}}
+        </div>
+        <div class="description">
+            {{description}}
+        </div>
+        <div class="similar" v-show="similar != null">
+            {{formatedSimilar}}
+        </div>
+        <div class="actions">
+            <div class="button" @click='accept'>Позвать</div>
+            <div class="button light" @click='skip'>Скрыть</div>
+        </div>
       </div>
     </div>
-    <div class="clear"></div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -29,10 +30,13 @@ export default {
   props: ['id', 'firstName', 'description', 'similar', 'imageLink'],
   data () {
     return {
-      isChecked: false
+      isChecked: true
     }
   },
   computed: {
+    formatedSimilar () {
+      return 'Тоже собирался на «' + this.similar[0].eventName + '»'
+    },
     ...mapState(['info', 'event'])
   },
   methods: {
@@ -47,7 +51,7 @@ export default {
       })
       .then(response => { console.log(response) })
       .catch(response => { console.log(response) })
-      this.isChecked = true
+      this.isChecked = false
     },
     skip () {
       HTTP.post('/addSkip', {
@@ -57,7 +61,7 @@ export default {
         eventId: this.event
       })
       .catch(response => { console.log(response) })
-      this.isChecked = true
+      this.isChecked = false
     }
   }
 }
@@ -116,7 +120,9 @@ body {
 .user .info .similar {
     color: #4D8A08;
     padding: 2px 0 2px 26px;
-
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     background: url(../assets/users/green_star.png) no-repeat left;
     background-size: contain;
 }
@@ -173,5 +179,13 @@ body {
 
 .clear {
     clear: both;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0
 }
 </style>

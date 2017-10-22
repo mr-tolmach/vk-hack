@@ -14,7 +14,7 @@
       <user v-for="ev in evs" 
         :id='ev.uid' 
         :firstName='ev.first_name' 
-        :description="ev.city_name + ' • ' + ev.occupation.name" 
+        :description='ev.description' 
         :similar='ev.similar' 
         :imageLink='ev.photo' 
         :key="ev.uid">    
@@ -54,19 +54,51 @@ export default {
     ...mapState(['event', 'filters', 'info', 'raw_api_result'])
   },
   methods: {
+    formatUserDescription (user) {
+      var seq = []
+
+      let age = this.unwrapDate(user.bdate)
+      if (age != null) {
+        seq.push(age + ' лет')
+      }
+      if (user.city_name !== '') {
+        seq.push(user.city_name)
+      }
+      if (user.occupation.name !== '') {
+        seq.push(user.occupation.name)
+      }
+
+      console.log(user.bdate, seq)
+      return seq.join(' • ')
+    },
+    unwrapDate (str) {
+      if (str === undefined) { return null }
+      let parts = str.split('.')
+      if (parts.length !== 3) {
+        console.log('wrong parts', parts)
+        return null
+      } else {
+        let age = 2017 - new Date(str).getFullYear()
+        return isNaN(age) ? null : age
+      }
+    },
     filterSugested (people) {
       return people.filter(e => {
+        console.log(e.bdate)
+        var isAgeOk = false
+        let lowAge = this.filters.lowAge
+        let highAge = this.filters.highAge
+        if (lowAge == null && highAge == null) {
+          isAgeOk = true
+        } else if (lowAge < highAge) {
+          let age = this.unwrapDate(e.bdate)
+          isAgeOk = age == null || (lowAge < age && age < highAge)
+        }
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
         let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
-        let needPhoto = !this.filters.needPhoto || (e.photo === '' && this.filters.needPhoto)
-        console.log('info', this.info.api_result)
-        console.log('city_title', this.info.api_result.city.title)
+        let needPhoto = !this.filters.needPhoto || (e.photo !== '' && this.filters.needPhoto)
         let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.api_result.city.title && this.filters.onlymyCity)
-        console.log(isMale)
-        console.log(isFemale)
-        console.log(needPhoto)
-        console.log(onlymyCity)
-        return isMale && isFemale && needPhoto && onlymyCity
+        return isAgeOk && e.first_name !== 'DELETED' && isMale && isFemale && needPhoto && onlymyCity
       })
     },
     loadEvents () {
@@ -74,12 +106,21 @@ export default {
       console.log(this.event)
       HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.raw_api_result} })
       .then(response => {
-        console.log(response.data.result)
-        this.evs = this.filterSugested(response.data.result)
+        console.log('before', response.data.result)
+        let after = this.filterSugested(response.data.result).map(e => {
+          if (e.occupation == null) {
+            e.occupation = { name: '' }
+          }
+          e.description = this.formatUserDescription(e)
+          return e
+        })
+        console.log('after', after)
+        this.evs = after
         this.loadingStatus = GlobalStatus.Success
       })
       .catch(response => {
         console.log(response)
+        console.log(this.filterSugested(this.evs))
         this.loadingStatus = GlobalStatus.Success
       })
     }

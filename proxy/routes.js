@@ -73,24 +73,27 @@ router.get('/users', (req, res) => {
             mInfo = apiResult
             return Promise.all(rcmndts.map(i => db.countLikes(i.uid, req.query.eventId)))
         }).then(likes => {
-            for (var i = 0; i < Math.min(rcmndts.count, likes.count); i++) {
+            for (var i = 0; i < Math.min(rcmndts.length, likes.length); i++) {
                 rcmndts[i]["likes_num"] = likes[i]
             }
             return Promise.all(rcmndts.map(i => db.getSimilarEvents(i.uid, userId)))
         }).then(similars => {
-            for (var i = 0; i < Math.min(rcmndts.count, similars.count); i++) {
+            for (var i = 0; i < Math.min(rcmndts.length, similars.length); i++) {
                 rcmndts[i]["similar"] = similars[i]
             }
             return Promise.all(rcmndts.map(i => db.isLikeExists(i.uid, userId, req.query.eventId)))
         }).then(hasLikes => {
-            for (var i = 0; i < Math.min(rcmndts.count, hasLikes.count); i++) {
+            for (var i = 0; i < Math.min(rcmndts.length, hasLikes.length); i++) {
                 rcmndts[i]["like"] = hasLikes[i]
             }
-            console.log(rcmndts)
+//            console.log(rcmndts)
             let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => {
-                return a.rank < b.rank
-            }).map(x => x.target)
-            console.log(vectors)
+                if (a.rank > b.rank) return -1;
+                if (a.rank < b.rank) return 1;
+                return 0;
+            })
+	    console.log(vectors)
+	    vectors = vectors.map(x => x.target)
             res.status(200).send({"result": vectors})
         }).catch(err => {
             console.log(err)

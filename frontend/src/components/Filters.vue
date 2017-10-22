@@ -57,7 +57,7 @@ export default {
       female: false,
       any: true,
       needPhoto: false,
-      onlymyCity: true,
+      onlymyCity: false,
       lowAge: null,
       highAge: null
     }
