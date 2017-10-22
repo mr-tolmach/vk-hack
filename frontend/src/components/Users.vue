@@ -55,18 +55,20 @@ export default {
   },
   methods: {
     formatUserDescription (user) {
+      var seq = []
+
+      let age = this.unwrapDate(user.bdate)
+      if (age != null) {
+        seq.push(age + ' лет')
+      }
       if (user.city_name === '') {
-        if (user.occupation.name === '') {
-          return ''
-        } else {
-          return user.occupation.name
-        }
+        seq.push(user.city_name)
       }
       if (user.occupation.name === '') {
-        return user.city_name
+        seq.push(user.occupation.name)
       }
 
-      return user.city_name + ' • ' + user.occupation.name
+      return seq.join(' • ')
     },
     unwrapDate (str) {
       let parts = str.split('\\.')
