@@ -10,7 +10,7 @@
             {{description}}
         </div>
         <div class="similar" v-show="similar != null">
-            {{similar}}
+            {{formatedSimilar}}
         </div>
         <div class="actions">
             <div class="button" @click='accept'>Позвать</div>
@@ -34,6 +34,9 @@ export default {
     }
   },
   computed: {
+    formatedSimilar () {
+      return 'Тоже собирался на «' + this.similar.eventName + '»'
+    },
     ...mapState(['info', 'event'])
   },
   methods: {
