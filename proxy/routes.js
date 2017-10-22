@@ -88,7 +88,9 @@ router.get('/users', (req, res) => {
             }
             console.log(rcmndts)
             let vectors = ranking.caclUsers(rcmndts.map(r => ranking.userDiff(mInfo, r))).sort((a, b) => {
-                return a.rank < b.rank
+                if (a.rank > b.rank) return -1;
+                if (a.rank < b.rank) return 1;
+                return 0;
             }).map(x => x.target)
             console.log(vectors)
             res.status(200).send({"result": vectors})
