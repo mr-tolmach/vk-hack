@@ -65,6 +65,7 @@ export default {
       if (user.occupation.name === '') {
         return user.city_name
       }
+
       return user.city_name + ' • ' + user.occupation.name
     },
     unwrapDate (str) {
@@ -78,20 +79,21 @@ export default {
     },
     filterSugested (people) {
       return people.filter(e => {
-        // var isAgeOk = false
-        // let lowAge = this.filters.lowAge
-        // let highAge = this.filters.highAge
-        // if (lowAge == null && highAge == null) {
-        //   isAgeOk = true
-        // } else if (lowAge < highAge) {
-        //   let age = this.unwrapDate(e.bdate)
-        //   isAgeOk = age == null || (lowAge < age && age < highAge)
-        // }
+        console.log(e.bdate)
+        var isAgeOk = false
+        let lowAge = this.filters.lowAge
+        let highAge = this.filters.highAge
+        if (lowAge == null && highAge == null) {
+          isAgeOk = true
+        } else if (lowAge < highAge) {
+          let age = this.unwrapDate(e.bdate)
+          isAgeOk = age == null || (lowAge < age && age < highAge)
+        }
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
         let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
         let needPhoto = !this.filters.needPhoto || (e.photo !== '' && this.filters.needPhoto)
         let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.api_result.city.title && this.filters.onlymyCity)
-        return e.first_name !== 'DELETED' && isMale && isFemale && needPhoto && onlymyCity
+        return isAgeOk && e.first_name !== 'DELETED' && isMale && isFemale && needPhoto && onlymyCity
       })
     },
     loadEvents () {
