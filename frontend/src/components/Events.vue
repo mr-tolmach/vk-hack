@@ -52,8 +52,8 @@ export default {
           .filter(e => e.mainPhoto && e.mainPhoto !== '')
           .slice(0, 10)
           .sort((l, r) => {
-            if (l.rating < r.rating) return -1
-            if (l.rating > r.rating) return 1
+            if (l.rating < r.rating) return 1
+            if (l.rating > r.rating) return -1
             return 0
           })
         this.loadingStatus = GlobalStatus.Success
