@@ -35,7 +35,10 @@ export default {
   },
   computed: {
     formatedSimilar () {
-      return 'Тоже собирался на «' + this.similar[0].eventName + '»'
+      if (this.similar != null) {
+        return 'Тоже собирался на «' + this.similar[0].eventName + '»'
+      }
+      return null
     },
     ...mapState(['info', 'event'])
   },
