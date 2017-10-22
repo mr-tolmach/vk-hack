@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       loadingStatus: GlobalStatus.Trying,
-      evs: ['a']
+      evs: [{ bdate: '19.11.1995' }]
     }
   },
   mounted () {
@@ -67,13 +67,31 @@ export default {
       }
       return user.city_name + ' • ' + user.occupation.name
     },
+    unwrapDate (str) {
+      let parts = str.split('\\.')
+      if (parts.length !== 3) return null
+      else {
+        var diff = Date.now() - new Date(str).getTime()
+        var age = new Date(diff)
+        return Math.abs(age.getUTCFullYear() - 1970)
+      }
+    },
     filterSugested (people) {
       return people.filter(e => {
+        var isAgeOk = false
+        let lowAge = this.filters.lowAge
+        let highAge = this.filters.highAge
+        if (lowAge == null && highAge == null) {
+          isAgeOk = true
+        } else if (lowAge < highAge) {
+          let age = this.unwrapDate(e.bdate)
+          isAgeOk = age == null || (lowAge < age && age < highAge)
+        }
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
         let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
         let needPhoto = !this.filters.needPhoto || (e.photo !== '' && this.filters.needPhoto)
         let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.api_result.city.title && this.filters.onlymyCity)
-        return e.first_name !== 'DELETED' && isMale && isFemale && needPhoto && onlymyCity
+        return isAgeOk && e.first_name !== 'DELETED' && isMale && isFemale && needPhoto && onlymyCity
       })
     },
     loadEvents () {
@@ -95,6 +113,7 @@ export default {
       })
       .catch(response => {
         console.log(response)
+        console.log(this.filterSugested(this.evs))
         this.loadingStatus = GlobalStatus.Success
       })
     }
