@@ -68,7 +68,7 @@ export default {
         seq.push(user.occupation.name)
       }
 
-      console.log('seq', seq)
+      console.log(user.bdate, seq)
       return seq.join(' • ')
     },
     unwrapDate (str) {
@@ -78,6 +78,8 @@ export default {
       else {
         var diff = Date.now() - new Date(str).getTime()
         var age = new Date(diff)
+        console.log('diff', diff)
+        console.log('age', age)
         return Math.abs(age.getUTCFullYear() - 1970)
       }
     },
