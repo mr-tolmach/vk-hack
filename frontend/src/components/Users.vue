@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       loadingStatus: GlobalStatus.Trying,
-      evs: []
+      evs: ['a']
     }
   },
   mounted () {
