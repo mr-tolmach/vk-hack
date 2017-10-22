@@ -14,7 +14,7 @@
       <user v-for="ev in evs" 
         :id='ev.uid' 
         :firstName='ev.first_name' 
-        :description="ev.city_name + ' • ' + ev.occupation.name" 
+        :description='ev.description' 
         :similar='ev.similar' 
         :imageLink='ev.photo' 
         :key="ev.uid">    
@@ -54,6 +54,19 @@ export default {
     ...mapState(['event', 'filters', 'info', 'raw_api_result'])
   },
   methods: {
+    formatUserDescription (user) {
+      if (user.city_name === '') {
+        if (user.occupation.name === '') {
+          return ''
+        } else {
+          return user.occupation.name
+        }
+      }
+      if (user.occupation.name === '') {
+        return user.city_name
+      }
+      return user.city_name + ' • ' + user.occupation.name
+    },
     filterSugested (people) {
       return people.filter(e => {
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
@@ -69,14 +82,15 @@ export default {
       HTTP.get('/users/', { params: {eventId: this.event, apiResult: this.raw_api_result} })
       .then(response => {
         console.log('before', response.data.result)
-        console.log('after', this.filterSugested(response.data.result))
-        console.log('mapped', this.filterSugested(response.data.result).map(e => {
+        let after = this.filterSugested(response.data.result).map(e => {
           if (e.occupation == null) {
             e.occupation = { name: '' }
           }
+          e.description = this.formatUserDescription(e)
           return e
-        }))
-        this.evs = this.filterSugested(response.data.result)
+        })
+        console.log('after', after)
+        this.evs = after
         this.loadingStatus = GlobalStatus.Success
       })
       .catch(response => {
