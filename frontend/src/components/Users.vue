@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       loadingStatus: GlobalStatus.Trying,
-      evs: [{ bdate: '19.11.1995' }]
+      evs: []
     }
   },
   mounted () {
