@@ -89,8 +89,12 @@ export default {
         let age = this.unwrapDate(e.bdate)
         if (lowAge == null && highAge == null) {
           isAgeOk = true
-        } else if (lowAge < highAge) {
-          isAgeOk = age == null || (lowAge < age && age < highAge)
+        } else if (lowAge != null && highAge != null && lowAge < highAge) {
+          isAgeOk = age != null && lowAge < age && age < highAge
+        } else if (lowAge != null) {
+          isAgeOk = age != null && lowAge < age
+        } else {
+          isAgeOk = age != null && age < highAge
         }
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
         let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
