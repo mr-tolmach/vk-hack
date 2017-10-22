@@ -74,8 +74,10 @@ export default {
     unwrapDate (str) {
       if (str === undefined) { return null }
       let parts = str.split('\\.')
-      if (parts.length !== 3) return null
-      else {
+      if (parts.length !== 3) {
+        console.log('wrong parts', parts)
+        return null
+      } else {
         var diff = Date.now() - new Date(str).getTime()
         var age = new Date(diff)
         console.log('diff', diff)
