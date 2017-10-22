@@ -89,7 +89,7 @@ export default {
 
     /*border-left: 15px solid transparent;*/
     border: none;
-    font-size: 0.8em;
+    font-size: 1em;
     color: #000;
 
     box-sizing: border-box;
