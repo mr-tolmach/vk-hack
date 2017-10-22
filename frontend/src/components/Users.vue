@@ -71,6 +71,7 @@ export default {
       return seq.join(' • ')
     },
     unwrapDate (str) {
+      if (str === undefined) { return null }
       let parts = str.split('\\.')
       if (parts.length !== 3) return null
       else {
