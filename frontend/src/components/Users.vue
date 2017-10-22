@@ -58,7 +58,7 @@ export default {
       return people.filter(e => {
         let isMale = this.filters.any || (e.sex === 2 && this.filters.male)
         let isFemale = this.filters.any || (e.sex === 1 && this.filters.female)
-        let needPhoto = !this.filters.needPhoto || (e.photo === '' && this.filters.needPhoto)
+        let needPhoto = !this.filters.needPhoto || (e.photo !== '' && this.filters.needPhoto)
         let onlymyCity = !this.filters.onlymyCity || (e.city_name === this.info.api_result.city.title && this.filters.onlymyCity)
         return e.first_name !== 'DELETED' && isMale && isFemale && needPhoto && onlymyCity
       })
