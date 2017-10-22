@@ -48,18 +48,19 @@ module.exports = {
 
     countLikes: function (userId, eventId) {
         return db.query(`
-            SELECT COUNT(*) FROM ${matches.name}
+            SELECT COUNT(*) as cnt FROM ${matches.name}
             WHERE ${matches.fields.currentUserId} = ? 
             AND ${matches.fields.eventId} = ?
-        `, [userId, eventId]).then(getFirstArg);
+        `, [userId, eventId]).then(getFirstArg).then(r => r[0].cnt);
     },
 
     isLikeExists: function (currentUserId, targetUserId, eventId) {
         return db.query(`
-            SELECT COUNT(*) FROM ${matches.name}
+            SELECT COUNT(*) as cnt FROM ${matches.name}
             WHERE ${matches.fields.currentUserId} = ? AND ${matches.fields.targetUserId} = ? AND ${matches.fields.eventId} = ?
-        `, [currentUserId, targetUserId, eventId]).then(getFirstArg);
+        `, [currentUserId, targetUserId, eventId]).then(getFirstArg).then(r => r[0].cnt);
     },
+
 
     getSimilarEvents: function (currentUserId, targetUserId) {
         return db.query(`

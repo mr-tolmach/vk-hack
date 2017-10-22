@@ -44,8 +44,9 @@ module.exports = {
             let b = parseInt(target["bdate"].split('.')[2]);
             if (a !== 0 && b !== 0)
                 res["bdate"] = Math.abs(a - b)
-        } catch (e) {}
+        } catch (e) { res["bdate"] = 0 }
 
+	if (isNaN(res["bdate"])) { res["bdate"] = 0 }
         res.target = target
 
         return res;
