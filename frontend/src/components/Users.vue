@@ -61,13 +61,14 @@ export default {
       if (age != null) {
         seq.push(age + ' лет')
       }
-      if (user.city_name === '') {
+      if (user.city_name !== '') {
         seq.push(user.city_name)
       }
-      if (user.occupation.name === '') {
+      if (user.occupation.name !== '') {
         seq.push(user.occupation.name)
       }
 
+      console.log('seq', seq)
       return seq.join(' • ')
     },
     unwrapDate (str) {
