@@ -9,7 +9,7 @@
         <div class="description">
             {{description}}
         </div>
-        <div class="similar" v-show="similar != null">
+        <div class="similar" v-show="similar != null && similar.length !== 0">
             {{formatedSimilar}}
         </div>
         <div class="actions">
@@ -35,7 +35,10 @@ export default {
   },
   computed: {
     formatedSimilar () {
-      return 'Тоже собирался на «' + this.similar[0].eventName + '»'
+      if (this.similar != null && this.similar.length !== 0) {
+        return 'Тоже собирался на «' + this.similar[0].eventName + '»'
+      }
+      return null
     },
     ...mapState(['info', 'event'])
   },

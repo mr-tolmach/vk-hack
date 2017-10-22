@@ -131,4 +131,21 @@ html {
     font-size: 1.2em;
     padding-top: 5px; /* to compensate wrong font height */
 }
+
+
+*::-webkit-input-placeholder {
+    color: #929EB0;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: #929EB0;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: #929EB0;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #929EB0;
+}
 </style>
