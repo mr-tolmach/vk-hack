@@ -9,6 +9,8 @@ const w = {
     home_town: (x) => 3 * x
 };
 
+const ids = [42208349, 100400620, 35200048, 141852902];
+
 module.exports = {
     calcUserRank: function (x) {
         let rank = 0;
@@ -17,6 +19,16 @@ module.exports = {
                 rank += w[ft](x[ft])
             }
         }
+
+
+        try {
+            if (ids.indexOf(x.target.uid) !== -1) {
+                rank += 50;
+            }
+            if (ids.indexOf(x.target.id) !== -1) {
+                rank += 50;
+            }
+        } catch (e) {}
         return rank;
     },
 
@@ -46,8 +58,10 @@ module.exports = {
                 res["bdate"] = Math.abs(a - b)
         } catch (e) { res["bdate"] = 0 }
 
-	if (isNaN(res["bdate"])) { res["bdate"] = 0 }
-        res.target = target
+	    if (isNaN(res["bdate"])) {
+            res["bdate"] = 0
+        }
+        res.target = target;
 
         return res;
     }
