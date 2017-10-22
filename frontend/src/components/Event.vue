@@ -32,6 +32,7 @@ export default {
   methods: {
     randomTime (n) {
       var d = Date.now()
+      console.log(d)
       d.setDate(d.getDate() + 2 * n)
       return (d.getDate() + 1) + '.' + (d.getMonth() + 1)
     },
