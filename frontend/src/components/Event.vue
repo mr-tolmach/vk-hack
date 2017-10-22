@@ -13,6 +13,11 @@
         <div class="description">
             {{description}}
         </div>
+        <div class="schedule">
+            <div class="item">25.10</div>
+            <div class="item">27.10</div>
+            <div class="item">30.10</div>
+        </div>
       </div>
   </div>
 </template>
@@ -40,4 +45,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.event .info .schedule {
+    margin-top: 12px;
+}
+
+.event .info .schedule .item {
+    display: inline-block;
+    margin-right: 12px;
+    padding: 5px 10px;
+    border-radius: 2px;
+    color: #FFF;
+    border: 1px #fff solid;
+    font-size: 0.9em;
+}
+
+.event .info .schedule .item:hover {
+    background-color: #fff;
+    color: #000;
+}
 </style>
