@@ -78,11 +78,7 @@ export default {
         console.log('wrong parts', parts)
         return null
       } else {
-        var diff = Date.now() - new Date(str).getTime()
-        var age = new Date(diff)
-        console.log('diff', diff)
-        console.log('age', age)
-        return Math.abs(age.getUTCFullYear() - 1970)
+        return 2017 - new Date(str).getFullYear()
       }
     },
     filterSugested (people) {
