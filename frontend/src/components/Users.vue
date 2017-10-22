@@ -78,7 +78,8 @@ export default {
         console.log('wrong parts', parts)
         return null
       } else {
-        return 2017 - new Date(str).getFullYear()
+        let age = 2017 - new Date(str).getFullYear()
+        return isNaN(age) ? null : age
       }
     },
     filterSugested (people) {
