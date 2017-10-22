@@ -14,9 +14,7 @@
             {{description}}
         </div>
         <div class="schedule">
-            <div class="item">25.10</div>
-            <div class="item">27.10</div>
-            <div class="item">30.10</div>
+            <div class="item" v-for="n in randRange(1, 4)">{{ randomTime(n) }}</div>
         </div>
       </div>
   </div>
@@ -32,6 +30,14 @@ export default {
     return {}
   },
   methods: {
+    randomTime (n) {
+      let d = Date.now()
+      d.setDate(d.getDate() + 2 * n)
+      return (d.getDate() + 1) + '.' + (d.getMonth() + 1)
+    },
+    randRange (min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + 1
+    },
     goToExternal () {
       window.top.location.href = this.infoLink
     },
