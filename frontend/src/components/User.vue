@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     formatedSimilar () {
-      if (this.similar != null) {
+      if (this.similar != null && this.similar.length !== 0) {
         return 'Тоже собирался на «' + this.similar[0].eventName + '»'
       }
       return null
