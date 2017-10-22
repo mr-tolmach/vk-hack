@@ -9,7 +9,7 @@
         <div class="description">
             {{description}}
         </div>
-        <div class="similar" v-show="similar != null">
+        <div class="similar" v-show="similar != null && similar.length !== 0">
             {{formatedSimilar}}
         </div>
         <div class="actions">
